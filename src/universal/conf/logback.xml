@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <appender name="EsslAttendanceReportGenerator" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${conf.logs}/essl-attendance-report-generator.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${conf.logs}/essl-attendance-report-generator.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>2</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{1} %m%n%rEx </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.codingkapoor.esslattendancereportgenerator" level="INFO" additivity="false">
+        <appender-ref ref="EsslAttendanceReportGenerator"/>
+    </logger>
+
+</configuration>
