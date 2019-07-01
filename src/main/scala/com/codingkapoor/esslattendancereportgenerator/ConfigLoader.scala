@@ -2,9 +2,9 @@ package com.codingkapoor.esslattendancereportgenerator
 
 import java.time.LocalDate
 
-trait ConfigLoader extends RuntimeEnvironment {
+trait ConfigLoader {
 
-  private val conf = appConf.getConfig("esslattendancereportgenerator")
+  private lazy val conf = RuntimeEnvironment.appConf.getConfig("esslattendancereportgenerator")
 
   def getConfiguredMonthYear: (Int, Int) = {
     lazy val current = LocalDate.now

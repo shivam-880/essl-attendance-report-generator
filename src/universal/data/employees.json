@@ -1,37 +1,37 @@
 [
 	{
-		"empid": 2,
+		"empId": 2,
 		"name": "Velez Sampson",
 		"gender": "M",
-		"doj": "1-Jan-2006",
+		"doj": "2006-01-01",
 		"pfn": "PYKRP00488740000000002"
 	},
 	{
-		"empid": 44,
+		"empId": 44,
 		"name": "John Schroeder",
 		"gender": "M",
-		"doj": "22-Jun-2009",
+		"doj": "2009-06-22",
 		"pfn": "PYKRP00433340000000038"
 	},
 	{
-		"empid": 53,
+		"empId": 53,
 		"name": "Shari Randall",
 		"gender": "F",
-		"doj": "15-Feb-2010",
+		"doj": "2010-02-15",
 		"pfn": "PYKRP00412340000000046"
 	},
 	{
-		"empid": 55,
+		"empId": 55,
 		"name": "Campos Bridges",
 		"gender": "M",
-		"doj": "3-May-2010",
+		"doj": "2010-05-03",
 		"pfn": "PYKRP00458450000000048"
 	},
 	{
-		"empid": 62,
+		"empId": 62,
 		"name": "White Massey",
 		"gender": "F",
-		"doj": "7-Oct-2010",
+		"doj": "2010-10-07",
 		"pfn": "PYKRP00476540000000055"
 	}
 ]

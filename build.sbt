@@ -10,5 +10,6 @@ enablePlugins(JavaAppPackaging, UniversalPlugin)
 libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
   "ch.qos.logback" % "logback-classic" % "1.1.2",
-  "com.typesafe" % "config" % "1.3.1"
+  "com.typesafe" % "config" % "1.3.1",
+  "com.typesafe.play" %% "play-json" % "2.7.3"
 )
