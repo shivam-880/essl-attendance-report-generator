@@ -7,14 +7,16 @@ LIB_DIR="${HOME_DIR}/lib"
 LOG_DIR="${HOME_DIR}/logs"
 DATA_DIR="${HOME_DIR}/data"
 
-if [ ! -d ${CONF_DIR} ] || [ ! -d ${LIB_DIR} ] || [ ! -d ${LOG_DIR} ]; then
+if [ ! -d ${CONF_DIR} ] || [ ! -d ${LIB_DIR} ] || [ ! -d ${LOG_DIR} ] || [ ! -d ${DATA_DIR} ]; then
   echo "`date`: Mandatory directory check failed."
   exit 0
 fi
 
+# Also check if you have all the necessary files in data directory else exit
+
 echo "Starting EsslAttendanceReportGenerator..."
 
-nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5007 \
+nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
     -server -Dlogback.configurationFile="${CONF_DIR}/logback.xml" \
 	-Dconf.dir="${CONF_DIR}" -Ddata.dir="${DATA_DIR}" -Dlogs.dir="${LOG_DIR}" -cp "${LIB_DIR}/*:${CONF_DIR}/*" \
 	com.codingkapoor.esslattendancereportgenerator.EsslAttendanceReportGenerator > "${LOG_DIR}/stdout.log" 2>&1 &
