@@ -1,6 +1,9 @@
-package com.codingkapoor.esslattendancereportgenerator
+package com.codingkapoor.esslattendancereportgenerator.model
 
 import java.time.LocalDate
+
+import com.codingkapoor.esslattendancereportgenerator.`package`.using
+import com.codingkapoor.esslattendancereportgenerator.core.RuntimeEnvironment
 
 import scala.io.Source
 

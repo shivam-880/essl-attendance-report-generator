@@ -1,7 +1,8 @@
-package com.codingkapoor.esslattendancereportgenerator
+package com.codingkapoor.esslattendancereportgenerator.core
 
 import java.time.LocalDate
 
+import com.codingkapoor.esslattendancereportgenerator.model.{Attendance, Employee, Holiday, Request}
 import com.typesafe.scalalogging.LazyLogging
 
 // App you reply with an error message if uptodate attlog or holidays is not provided

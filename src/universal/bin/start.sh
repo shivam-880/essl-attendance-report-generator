@@ -19,7 +19,7 @@ echo "Starting EsslAttendanceReportGenerator..."
 nohup java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
     -server -Dlogback.configurationFile="${CONF_DIR}/logback.xml" \
 	-Dconf.dir="${CONF_DIR}" -Ddata.dir="${DATA_DIR}" -Dlogs.dir="${LOG_DIR}" -cp "${LIB_DIR}/*:${CONF_DIR}/*" \
-	com.codingkapoor.esslattendancereportgenerator.EsslAttendanceReportGenerator > "${LOG_DIR}/stdout.log" 2>&1 &
+	com.codingkapoor.esslattendancereportgenerator.core.EsslAttendanceReportGenerator > "${LOG_DIR}/stdout.log" 2>&1 &
 
 essl_attendance_report_generator_pid=$!
 

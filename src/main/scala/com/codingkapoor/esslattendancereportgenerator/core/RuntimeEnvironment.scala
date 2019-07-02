@@ -1,7 +1,9 @@
-package com.codingkapoor.esslattendancereportgenerator
+package com.codingkapoor.esslattendancereportgenerator.core
 
 import java.io.File
+
 import com.typesafe.config.{Config, ConfigFactory}
+
 import scala.sys.SystemProperties
 
 object RuntimeEnvironment {

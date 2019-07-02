@@ -1,4 +1,4 @@
-package com.codingkapoor.esslattendancereportgenerator
+package com.codingkapoor.esslattendancereportgenerator.core
 
 import java.time.LocalDate
 
