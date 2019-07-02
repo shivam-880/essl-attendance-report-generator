@@ -17,7 +17,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.codingkapoor.esslattendancereportgenerator" level="INFO" additivity="false">
+    <logger name="com.codingkapoor.esslattendancereportgenerator" level="DEBUG" additivity="false">
         <appender-ref ref="EsslAttendanceReportGenerator"/>
     </logger>
 

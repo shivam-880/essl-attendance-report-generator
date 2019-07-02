@@ -6,9 +6,17 @@ import com.typesafe.scalalogging.LazyLogging
 // Also notify entries in attlog that were not mentioned in employees.json
 object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoader {
   val (month, year) = getConfiguredMonthYear
-  logger.info(s"Configured month = $month, year = $year")
-  logger.info(s"Holidays = ${Holiday.getHolidays.filter(h => h.date.getMonthValue == month && h.date.getYear == year)}")
-  logger.info(s"Employees = ${Employee.getEmployees}")
-  logger.info(s"Attendance = ${Attendance.getAttendance}")
-  logger.info(s"Requests = ${Request.getRequests}")
+  logger.debug(s"Configured month = $month, year = $year")
+
+  val holidays = Holiday.getHolidays.filter(h => h.date.getMonthValue == month && h.date.getYear == year)
+  logger.debug(s"Holidays = $holidays")
+
+  val employees = Employee.getEmployees
+  logger.debug(s"Employees = $employees")
+
+  val attendance = Attendance.getAttendance
+  logger.debug(s"Attendance = $attendance")
+
+  val requests = Request.getRequests
+  logger.debug(s"Requests = $requests")
 }
