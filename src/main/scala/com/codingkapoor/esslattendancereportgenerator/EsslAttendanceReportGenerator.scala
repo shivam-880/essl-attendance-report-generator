@@ -1,5 +1,7 @@
 package com.codingkapoor.esslattendancereportgenerator
 
+import java.time.LocalDate
+
 import com.typesafe.scalalogging.LazyLogging
 
 // App you reply with an error message if uptodate attlog or holidays is not provided
@@ -14,7 +16,11 @@ object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoa
   val employees = Employee.getEmployees
   logger.debug(s"Employees = $employees")
 
-  val attendance = Attendance.getAttendance
+  val attendance = Attendance.getAttendance.foldLeft(Map[Int, List[LocalDate]]()) { (acc, att) =>
+    if (acc.contains(att.empId)) {
+      acc + (att.empId -> (att.date :: acc(att.empId)).sortWith(_.isBefore(_)))
+    } else acc + (att.empId -> List(att.date).sortWith(_.isBefore(_)))
+  }
   logger.debug(s"Attendance = $attendance")
 
   val requests = Request.getRequests
