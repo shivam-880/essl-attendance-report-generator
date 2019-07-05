@@ -8,6 +8,16 @@ object `package` {
 
   val AttendanceReportFileName = "gbatt.xlsx"
 
+  object AttendanceStatus extends Enumeration {
+    type AttendanceStatus = Value
+
+    val Present: AttendanceStatus.Value = Value("P")
+    val Leave: AttendanceStatus.Value = Value("L")
+    val Holiday: AttendanceStatus.Value = Value("H")
+    val HalfDay: AttendanceStatus.Value = Value("1/2")
+    val Wfh: AttendanceStatus.Value = Value("WFH")
+  }
+
   def using[A <: {def close() : Unit}, B](resource: A)(f: A => B): B = {
     try {
       f(resource)
