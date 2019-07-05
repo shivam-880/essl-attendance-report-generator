@@ -4,7 +4,7 @@ import java.io.FileOutputStream
 import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.model.Employee
-import org.apache.poi.xssf.usermodel.{XSSFSheet, XSSFWorkbook}
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.util.CellRangeAddress
 import com.codingkapoor.esslattendancereportgenerator._
@@ -27,11 +27,12 @@ object ExcelWriter {
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
 
-      val companyDetailsRow = sheet.createRow(0)
-      companyDetailsRow.setHeightInPoints(50)
-      val companyDetailsCol = companyDetailsRow.createCell(0)
-      companyDetailsCol.setCellValue(s"$CompanyName\n$CompanyAddress")
-      companyDetailsCol.setCellStyle(cellStyle)
+      val row = sheet.createRow(0)
+      row.setHeightInPoints(50)
+
+      val col = row.createCell(0)
+      col.setCellValue(s"$CompanyName\n$CompanyAddress")
+      col.setCellStyle(cellStyle)
 
       sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3))
     }
@@ -47,11 +48,11 @@ object ExcelWriter {
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
 
-      val employeesInfoHeaderRow = sheet.createRow(2)
+      val row = sheet.createRow(2)
       for (i <- EmployeesInfoHeader.indices) {
-        val employeesInfoHeaderCell = employeesInfoHeaderRow.createCell(i)
-        employeesInfoHeaderCell.setCellValue(EmployeesInfoHeader(i))
-        employeesInfoHeaderCell.setCellStyle(cellStyle)
+        val col = row.createCell(i)
+        col.setCellValue(EmployeesInfoHeader(i))
+        col.setCellStyle(cellStyle)
       }
     }
 
@@ -64,13 +65,13 @@ object ExcelWriter {
 
       var rowNum = 3
       for (employee <- employees) {
-        val employeeInfoRow = sheet.createRow(rowNum)
-        employeeInfoRow.createCell(0).setCellValue(employee.name)
-        employeeInfoRow.createCell(1).setCellValue(employee.gender)
-        val doj = employeeInfoRow.createCell(2)
+        val row = sheet.createRow(rowNum)
+        row.createCell(0).setCellValue(employee.name)
+        row.createCell(1).setCellValue(employee.gender)
+        val doj = row.createCell(2)
         doj.setCellValue(employee.doj.toString)
         doj.setCellStyle(dateCellStyle)
-        employeeInfoRow.createCell(3).setCellValue(employee.pfn)
+        row.createCell(3).setCellValue(employee.pfn)
 
         rowNum += 1
       }
