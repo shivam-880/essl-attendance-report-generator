@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.apache.poi.ss.usermodel.{HorizontalAlignment, IndexedColors}
 import org.apache.poi.ss.util.CellRangeAddress
 import com.codingkapoor.esslattendancereportgenerator._
+import org.apache.poi.ss.usermodel.VerticalAlignment
 
 object ExcelWriter {
 
@@ -16,6 +17,29 @@ object ExcelWriter {
     val yearMonth = YearMonth.of(year, month)
     val monthStr = yearMonth.getMonth.toString
     val numOfDays = yearMonth.lengthOfMonth
+
+    def writeSheetHeader(implicit workbook: XSSFWorkbook) = {
+      val sheet = workbook.getSheet(monthStr)
+
+      val font = workbook.createFont
+      font.setBold(true)
+      font.setFontHeightInPoints(10.5.toShort)
+      font.setColor(IndexedColors.BLACK.getIndex)
+
+      val cellStyle = workbook.createCellStyle
+      cellStyle.setFont(font)
+      cellStyle.setAlignment(HorizontalAlignment.CENTER)
+      cellStyle.setVerticalAlignment(VerticalAlignment.CENTER)
+
+      val row = sheet.createRow(0)
+      row.setHeightInPoints(50)
+
+      val col = row.createCell(5)
+      col.setCellValue(s"$monthStr, $year")
+      col.setCellStyle(cellStyle)
+
+      sheet.addMergedRegion(new CellRangeAddress(0, 0, 5, 5 + numOfDays - 1))
+    }
 
     def writeCompanyDetails(implicit workbook: XSSFWorkbook) = {
       val sheet = workbook.getSheet(monthStr)
@@ -28,14 +52,14 @@ object ExcelWriter {
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
 
-      val row = sheet.createRow(0)
+      val row = sheet.getRow(0)
       row.setHeightInPoints(50)
 
       val col = row.createCell(0)
       col.setCellValue(s"$CompanyName\n$CompanyAddress")
       col.setCellStyle(cellStyle)
 
-      sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3))
+      sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4))
     }
 
     def writeAttendanceHeader(implicit workbook: XSSFWorkbook) = {
@@ -106,6 +130,7 @@ object ExcelWriter {
     using(new XSSFWorkbook) { implicit workbook =>
       val sheet = workbook.createSheet(monthStr)
 
+      writeSheetHeader
       writeCompanyDetails
       writeAttendanceHeader
       writeAttendance
