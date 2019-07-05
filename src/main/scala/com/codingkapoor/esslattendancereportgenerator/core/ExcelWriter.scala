@@ -87,9 +87,7 @@ object ExcelWriter {
       for (i <- EmployeesInfoHeader.indices)
         sheet.autoSizeColumn(i)
 
-      using(new FileOutputStream(AttendanceReportFileName)) { os =>
-        workbook.write(os)
-      }
+      using(new FileOutputStream(AttendanceReportFileName))(workbook.write)
     }
   }
 }
