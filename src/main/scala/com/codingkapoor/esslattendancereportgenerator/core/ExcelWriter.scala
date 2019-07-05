@@ -49,10 +49,19 @@ object ExcelWriter {
       cellStyle.setFont(font)
 
       val row = sheet.createRow(2)
+
       for (i <- EmployeesInfoHeader.indices) {
         val col = row.createCell(i)
         col.setCellValue(EmployeesInfoHeader(i))
         col.setCellStyle(cellStyle)
+      }
+
+      var daysIndex = 4
+      for (i <- 1 to numOfDays) {
+        val col = row.createCell(daysIndex)
+        col.setCellValue(i)
+        col.setCellStyle(cellStyle)
+        daysIndex += 1
       }
     }
 
