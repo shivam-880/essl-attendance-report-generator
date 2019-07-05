@@ -1,10 +1,10 @@
 package com.codingkapoor.esslattendancereportgenerator
 
 object `package` {
-  val CompanyName = "Glassbeam Software India Pvt Ltd"
-  val CompanyAddress = "No. 21, 3rd Floor, Block A, Sree Rama Deevana, Halasuru Road, Bangalore-42"
+  val CompanyName = "GLASSBEAM SOFTWARE INDIA PVT. LTD.\n"
+  val CompanyAddress = "No. 21, 3RD FLOOR, BLOCK A, SREE RAMA DEEVANA,\nHALASURU ROAD, BANGALORE-42"
 
-  val EmployeesInfoHeader = Array("Employee Name", "Gender", "Date Of Joining", "PF No.")
+  val EmployeesInfoHeader = Array("EMPLOYEE NAME", "GENDER", "DATE OF JOINING", "PF NUMBER")
 
   val AttendanceReportFileName = "gbatt.xlsx"
 

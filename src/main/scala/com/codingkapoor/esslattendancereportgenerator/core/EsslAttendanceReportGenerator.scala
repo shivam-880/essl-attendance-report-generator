@@ -27,5 +27,5 @@ object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoa
   val requests = Request.getRequests
   logger.debug(s"Requests = $requests")
 
-  ExcelWriter.write(employees)
+  ExcelWriter.write(month, year, employees)
 }
