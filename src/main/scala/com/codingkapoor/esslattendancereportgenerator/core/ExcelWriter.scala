@@ -1,11 +1,12 @@
 package com.codingkapoor.esslattendancereportgenerator.core
 
 import java.io.FileOutputStream
+import java.sql.Date
 import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.model.Employee
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.ss.usermodel.{HorizontalAlignment, IndexedColors}
 import org.apache.poi.ss.util.CellRangeAddress
 import com.codingkapoor.esslattendancereportgenerator._
 
@@ -70,7 +71,8 @@ object ExcelWriter {
 
       val createHelper = workbook.getCreationHelper
       val dateCellStyle = workbook.createCellStyle
-      dateCellStyle.setDataFormat(createHelper.createDataFormat.getFormat("dd-MM-yyyy"))
+      dateCellStyle.setDataFormat(createHelper.createDataFormat.getFormat("dd-mmm-yyyy"))
+      dateCellStyle.setAlignment(HorizontalAlignment.LEFT)
 
       var rowNum = 3
       for (employee <- employees) {
@@ -78,7 +80,7 @@ object ExcelWriter {
         row.createCell(0).setCellValue(employee.name)
         row.createCell(1).setCellValue(employee.gender)
         val doj = row.createCell(2)
-        doj.setCellValue(employee.doj.toString)
+        doj.setCellValue(Date.valueOf(employee.doj))
         doj.setCellStyle(dateCellStyle)
         row.createCell(3).setCellValue(employee.pfn)
 
