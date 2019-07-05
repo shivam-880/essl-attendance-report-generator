@@ -57,7 +57,7 @@ object ExcelWriter {
         col.setCellStyle(cellStyle)
       }
 
-      var daysIndex = 4
+      var daysIndex = 5
       for (i <- 1 to numOfDays) {
         val col = row.createCell(daysIndex)
         col.setCellValue(i)
@@ -70,19 +70,34 @@ object ExcelWriter {
       val sheet = workbook.getSheet(monthStr)
 
       val createHelper = workbook.getCreationHelper
+
       val dateCellStyle = workbook.createCellStyle
       dateCellStyle.setDataFormat(createHelper.createDataFormat.getFormat("dd-mmm-yyyy"))
       dateCellStyle.setAlignment(HorizontalAlignment.LEFT)
 
+      val idCellStyle = workbook.createCellStyle
+      idCellStyle.setAlignment(HorizontalAlignment.LEFT)
+
       var rowNum = 3
       for (employee <- employees) {
         val row = sheet.createRow(rowNum)
-        row.createCell(0).setCellValue(employee.name)
-        row.createCell(1).setCellValue(employee.gender)
-        val doj = row.createCell(2)
+
+        val id = row.createCell(0)
+        id.setCellValue(employee.empId)
+        id.setCellStyle(idCellStyle)
+
+        val name = row.createCell(1)
+        name.setCellValue(employee.name)
+
+        val gender = row.createCell(2)
+        gender.setCellValue(employee.gender)
+
+        val doj = row.createCell(3)
         doj.setCellValue(Date.valueOf(employee.doj))
         doj.setCellStyle(dateCellStyle)
-        row.createCell(3).setCellValue(employee.pfn)
+
+        val pfn = row.createCell(4)
+        pfn.setCellValue(employee.pfn)
 
         rowNum += 1
       }
