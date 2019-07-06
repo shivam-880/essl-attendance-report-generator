@@ -4,7 +4,7 @@ import java.io.FileOutputStream
 import java.sql.Date
 import java.time.YearMonth
 
-import com.codingkapoor.esslattendancereportgenerator.model.Employee
+import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Employee}
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.apache.poi.ss.usermodel.{HorizontalAlignment, IndexedColors}
 import org.apache.poi.ss.util.CellRangeAddress
@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 
 object ExcelWriter {
 
-  def write(month: Int, year: Int, employees: Seq[Employee]): Unit = {
+  def write(attendances: Seq[AttendancePerEmployee])(month: Int, year: Int): Unit = {
     val yearMonth = YearMonth.of(year, month)
     val monthStr = yearMonth.getMonth.toString
     val numOfDays = yearMonth.lengthOfMonth
@@ -72,6 +72,7 @@ object ExcelWriter {
 
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
+      cellStyle.setAlignment(HorizontalAlignment.CENTER)
 
       val row = sheet.createRow(2)
 
@@ -95,26 +96,39 @@ object ExcelWriter {
 
       val createHelper = workbook.getCreationHelper
 
-      val dateCellStyle = workbook.createCellStyle
-      dateCellStyle.setDataFormat(createHelper.createDataFormat.getFormat("dd-mmm-yyyy"))
-      dateCellStyle.setAlignment(HorizontalAlignment.LEFT)
+      val font = workbook.createFont
+      font.setFontHeightInPoints(10.toShort)
+
+      val cellStyle = workbook.createCellStyle
+      cellStyle.setFont(font)
+      cellStyle.setAlignment(HorizontalAlignment.CENTER)
 
       val idCellStyle = workbook.createCellStyle
       idCellStyle.setAlignment(HorizontalAlignment.LEFT)
 
+      val dateCellStyle = workbook.createCellStyle
+      dateCellStyle.setDataFormat(createHelper.createDataFormat.getFormat("dd-mmm-yyyy"))
+      dateCellStyle.setAlignment(HorizontalAlignment.CENTER)
+
       var rowNum = 3
-      for (employee <- employees) {
+      for (att <- attendances) {
+        val employee = att.employee
+        val attendance = att.attendance
+
         val row = sheet.createRow(rowNum)
 
         val id = row.createCell(0)
         id.setCellValue(employee.empId)
         id.setCellStyle(idCellStyle)
+        id.setCellStyle(cellStyle)
 
         val name = row.createCell(1)
         name.setCellValue(employee.name)
+        name.setCellStyle(cellStyle)
 
         val gender = row.createCell(2)
         gender.setCellValue(employee.gender)
+        gender.setCellStyle(cellStyle)
 
         val doj = row.createCell(3)
         doj.setCellValue(Date.valueOf(employee.doj))
@@ -122,9 +136,21 @@ object ExcelWriter {
 
         val pfn = row.createCell(4)
         pfn.setCellValue(employee.pfn)
+        pfn.setCellStyle(cellStyle)
+
+        var daysIndex = 5
+        for (i <- 1 to numOfDays) {
+          val col = row.createCell(daysIndex)
+          col.setCellValue(attendance(i))
+          col.setCellStyle(cellStyle)
+          daysIndex += 1
+        }
 
         rowNum += 1
       }
+
+      for (i <- EmployeesInfoHeader.indices)
+        sheet.autoSizeColumn(i)
     }
 
     using(new XSSFWorkbook) { implicit workbook =>
@@ -134,9 +160,6 @@ object ExcelWriter {
       writeCompanyDetails
       writeAttendanceHeader
       writeAttendance
-
-      for (i <- EmployeesInfoHeader.indices)
-        sheet.autoSizeColumn(i)
 
       using(new FileOutputStream(AttendanceReportFileName))(workbook.write)
     }
