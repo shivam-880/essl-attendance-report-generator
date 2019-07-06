@@ -154,7 +154,7 @@ object ExcelWriter {
     }
 
     using(new XSSFWorkbook) { implicit workbook =>
-      val sheet = workbook.createSheet(monthStr)
+      workbook.createSheet(monthStr)
 
       writeSheetHeader
       writeCompanyDetails
