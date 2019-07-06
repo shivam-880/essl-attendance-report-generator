@@ -149,6 +149,21 @@ object ExcelWriter {
       }
     }
 
+    def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook) = {
+      val sheet = workbook.getSheet(monthStr)
+
+      var existingMergedRegionsFound = List.empty[Boolean]
+      val mergedRegions = sheet.getMergedRegions.iterator()
+      while (mergedRegions.hasNext) {
+        val cellRangeAddr = mergedRegions.next()
+        if (cellRangeAddr.getFirstRow == firstRowIndex && cellRangeAddr.getLastRow == lastRowIndex &&
+          cellRangeAddr.getFirstColumn == firstColumnIndex && cellRangeAddr.getLastColumn == lastColumnIndex)
+          existingMergedRegionsFound = true :: existingMergedRegionsFound
+      }
+
+      existingMergedRegionsFound.contains(true)
+    }
+
     def writeHolidays(implicit workbook: XSSFWorkbook) = {
       val sheet = workbook.getSheet(monthStr)
       val row = sheet.getRow(3)
@@ -167,11 +182,13 @@ object ExcelWriter {
         val day = holiday.date.getDayOfMonth
         val dayIndex = 5 + day - 1
 
-        val col = row.createCell(dayIndex)
-        col.setCellValue(holiday.occasion)
-        col.setCellStyle(cellStyle)
+        if (!mergedRegionAlreadyExists(3, 20, dayIndex, dayIndex)) {
+          val col = row.createCell(dayIndex)
+          col.setCellValue(holiday.occasion)
+          col.setCellStyle(cellStyle)
 
-        sheet.addMergedRegion(new CellRangeAddress(3, 20, dayIndex, dayIndex))
+          sheet.addMergedRegion(new CellRangeAddress(3, 20, dayIndex, dayIndex))
+        }
       }
     }
 
@@ -194,15 +211,7 @@ object ExcelWriter {
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
           val dayIndex = 5 + dayOfMonth - 1
 
-          var existingMergedRegionsFound = List.empty[Boolean]
-          val mergedRegions = sheet.getMergedRegions.iterator()
-          while (mergedRegions.hasNext) {
-            val cellRangeAddr = mergedRegions.next()
-            if (cellRangeAddr.getFirstRow == 3 && cellRangeAddr.getLastRow == 20 && cellRangeAddr.getFirstColumn == dayIndex && cellRangeAddr.getLastColumn == dayIndex)
-              existingMergedRegionsFound = true :: existingMergedRegionsFound
-          }
-
-          if (!existingMergedRegionsFound.contains(true)) {
+          if (!mergedRegionAlreadyExists(3, 20, dayIndex, dayIndex)) {
             val col = row.createCell(dayIndex)
             val dayOfWeekStr = dayOfWeek.toString
             col.setCellValue(dayOfWeekStr.take(1) + dayOfWeekStr.drop(1).toLowerCase)
