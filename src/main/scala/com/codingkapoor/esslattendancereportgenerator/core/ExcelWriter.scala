@@ -140,7 +140,8 @@ object ExcelWriter {
         var daysIndex = 5
         for (i <- 1 to numOfDays) {
           val col = row.createCell(daysIndex)
-          col.setCellValue(attendance(i))
+          if(!attendance(i).equals(AttendanceStatus.Abscond.toString))
+            col.setCellValue(attendance(i))
           col.setCellStyle(cellStyle)
           daysIndex += 1
         }
