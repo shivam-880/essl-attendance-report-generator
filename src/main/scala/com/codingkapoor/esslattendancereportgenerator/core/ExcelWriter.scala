@@ -3,12 +3,13 @@ package com.codingkapoor.esslattendancereportgenerator.core
 import java.io.FileOutputStream
 import java.sql.Date
 import java.time.{DayOfWeek, LocalDate, YearMonth}
+
 import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Employee, Holiday}
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import org.apache.poi.ss.usermodel.{HorizontalAlignment, IndexedColors}
+import org.apache.poi.xssf.usermodel.{XSSFColor, XSSFWorkbook}
+import org.apache.poi.ss.usermodel._
 import org.apache.poi.ss.util.CellRangeAddress
 import com.codingkapoor.esslattendancereportgenerator._
-import org.apache.poi.ss.usermodel.VerticalAlignment
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder
 
 object ExcelWriter {
 
@@ -29,15 +30,34 @@ object ExcelWriter {
       cellStyle.setFont(font)
       cellStyle.setAlignment(HorizontalAlignment.CENTER)
       cellStyle.setVerticalAlignment(VerticalAlignment.CENTER)
+      cellStyle.setBorderLeft(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderTop(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderRight(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderBottom(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setFillForegroundColor(new XSSFColor(java.awt.Color.LIGHT_GRAY))
+      cellStyle.setFillPattern(FillPatternType.DIAMONDS)
 
       val row = sheet.createRow(0)
       row.setHeightInPoints(50)
 
-      val col = row.createCell(5)
-      col.setCellValue(s"$monthStr, $year")
-      col.setCellStyle(cellStyle)
+      val firstRowIndex = 0
+      val lastRowIndex = 0
+      val firstColIndex = 5
+      val lastColIndex = 5 + numOfDays - 1
 
-      sheet.addMergedRegion(new CellRangeAddress(0, 0, 5, 5 + numOfDays - 1))
+      for (i <- firstColIndex to lastColIndex) {
+        val col = row.createCell(i)
+        col.setCellStyle(cellStyle)
+        if (i == firstColIndex) {
+          col.setCellValue(s"$monthStr, $year")
+        }
+      }
+
+      sheet.addMergedRegion(new CellRangeAddress(firstRowIndex, lastRowIndex, firstColIndex, lastColIndex))
     }
 
     def writeCompanyDetails(implicit workbook: XSSFWorkbook) = {
@@ -50,15 +70,34 @@ object ExcelWriter {
 
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
+      cellStyle.setBorderLeft(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderTop(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderRight(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderBottom(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setFillForegroundColor(new XSSFColor(java.awt.Color.LIGHT_GRAY))
+      cellStyle.setFillPattern(FillPatternType.DIAMONDS)
 
       val row = sheet.getRow(0)
       row.setHeightInPoints(50)
 
-      val col = row.createCell(0)
-      col.setCellValue(s"$CompanyName\n$CompanyAddress")
-      col.setCellStyle(cellStyle)
+      val firstRowIndex = 0
+      val lastRowIndex = 0
+      val firstColIndex = 0
+      val lastColIndex = 4
 
-      sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4))
+      for (i <- firstColIndex to lastColIndex) {
+        val col = row.createCell(i)
+        col.setCellStyle(cellStyle)
+        if (i == firstColIndex) {
+          col.setCellValue(s"$CompanyName\n$CompanyAddress")
+        }
+      }
+
+      sheet.addMergedRegion(new CellRangeAddress(firstRowIndex, lastRowIndex, firstColIndex, lastColIndex))
     }
 
     def writeAttendanceHeader(implicit workbook: XSSFWorkbook) = {
@@ -72,6 +111,16 @@ object ExcelWriter {
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
       cellStyle.setAlignment(HorizontalAlignment.CENTER)
+      cellStyle.setBorderLeft(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderTop(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderRight(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderBottom(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setFillForegroundColor(new XSSFColor(java.awt.Color.LIGHT_GRAY))
+      cellStyle.setFillPattern(FillPatternType.DIAMONDS)
 
       val row = sheet.createRow(2)
 
@@ -101,6 +150,14 @@ object ExcelWriter {
       val cellStyle = workbook.createCellStyle
       cellStyle.setFont(font)
       cellStyle.setAlignment(HorizontalAlignment.CENTER)
+      cellStyle.setBorderLeft(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderTop(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderRight(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderBottom(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
 
       val idCellStyle = workbook.createCellStyle
       idCellStyle.setAlignment(HorizontalAlignment.LEFT)
@@ -108,6 +165,14 @@ object ExcelWriter {
       val dateCellStyle = workbook.createCellStyle
       dateCellStyle.setDataFormat(createHelper.createDataFormat.getFormat("dd-mmm-yyyy"))
       dateCellStyle.setAlignment(HorizontalAlignment.CENTER)
+      dateCellStyle.setBorderLeft(BorderStyle.THIN)
+      dateCellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+      dateCellStyle.setBorderTop(BorderStyle.THIN)
+      dateCellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+      dateCellStyle.setBorderRight(BorderStyle.THIN)
+      dateCellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+      dateCellStyle.setBorderBottom(BorderStyle.THIN)
+      dateCellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
 
       var rowNum = 3
       for (att <- attendances) {
@@ -140,7 +205,7 @@ object ExcelWriter {
         var daysIndex = 5
         for (i <- 1 to numOfDays) {
           val col = row.createCell(daysIndex)
-          if(!attendance(i).equals(AttendanceStatus.Abscond.toString))
+          if (!attendance(i).equals(AttendanceStatus.Abscond.toString))
             col.setCellValue(attendance(i))
           col.setCellStyle(cellStyle)
           daysIndex += 1
@@ -178,6 +243,16 @@ object ExcelWriter {
       cellStyle.setVerticalAlignment(VerticalAlignment.CENTER)
       cellStyle.setRotation(90.toShort)
       cellStyle.setShrinkToFit(true)
+      cellStyle.setBorderLeft(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderTop(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderRight(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setBorderBottom(BorderStyle.THIN)
+      cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
+      cellStyle.setFillForegroundColor(new XSSFColor(new java.awt.Color(238, 204, 251)))
+      cellStyle.setFillPattern(FillPatternType.DIAMONDS)
 
       for (holiday <- holidays) {
         val day = holiday.date.getDayOfMonth
@@ -200,23 +275,57 @@ object ExcelWriter {
       val font = workbook.createFont
       font.setFontHeightInPoints(10.toShort)
 
-      val cellStyle = workbook.createCellStyle
-      cellStyle.setFont(font)
-      cellStyle.setAlignment(HorizontalAlignment.CENTER)
-      cellStyle.setVerticalAlignment(VerticalAlignment.CENTER)
-      cellStyle.setRotation(90.toShort)
-      cellStyle.setShrinkToFit(true)
-
       for (dayOfMonth <- 1 to yearMonth.lengthOfMonth()) {
         val dayOfWeek = LocalDate.of(year, month, dayOfMonth).getDayOfWeek
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
           val dayIndex = 5 + dayOfMonth - 1
 
           if (!mergedRegionAlreadyExists(3, 20, dayIndex, dayIndex)) {
-            val col = row.createCell(dayIndex)
-            val dayOfWeekStr = dayOfWeek.toString
-            col.setCellValue(dayOfWeekStr.take(1) + dayOfWeekStr.drop(1).toLowerCase)
-            col.setCellStyle(cellStyle)
+            if (dayOfWeek == DayOfWeek.SATURDAY) {
+              val cellStyle = workbook.createCellStyle
+              cellStyle.setFont(font)
+              cellStyle.setAlignment(HorizontalAlignment.CENTER)
+              cellStyle.setVerticalAlignment(VerticalAlignment.CENTER)
+              cellStyle.setRotation(90.toShort)
+              cellStyle.setShrinkToFit(true)
+              cellStyle.setBorderLeft(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setBorderTop(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setBorderRight(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setBorderBottom(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setFillForegroundColor(new XSSFColor(java.awt.Color.LIGHT_GRAY))
+              cellStyle.setFillPattern(FillPatternType.DIAMONDS)
+
+              val col = row.createCell(dayIndex)
+              val dayOfWeekStr = dayOfWeek.toString
+              col.setCellValue(dayOfWeekStr.take(1) + dayOfWeekStr.drop(1).toLowerCase)
+              col.setCellStyle(cellStyle)
+            } else {
+              val cellStyle = workbook.createCellStyle
+              cellStyle.setFont(font)
+              cellStyle.setAlignment(HorizontalAlignment.CENTER)
+              cellStyle.setVerticalAlignment(VerticalAlignment.CENTER)
+              cellStyle.setRotation(90.toShort)
+              cellStyle.setShrinkToFit(true)
+              cellStyle.setBorderLeft(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setBorderTop(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setBorderRight(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setBorderBottom(BorderStyle.THIN)
+              cellStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, new XSSFColor(java.awt.Color.GRAY))
+              cellStyle.setFillForegroundColor(new XSSFColor(java.awt.Color.WHITE))
+              cellStyle.setFillPattern(FillPatternType.DIAMONDS)
+
+              val col = row.createCell(dayIndex)
+              val dayOfWeekStr = dayOfWeek.toString
+              col.setCellValue(dayOfWeekStr.take(1) + dayOfWeekStr.drop(1).toLowerCase)
+              col.setCellStyle(cellStyle)
+            }
 
             sheet.addMergedRegion(new CellRangeAddress(3, 20, dayIndex, dayIndex))
           }
