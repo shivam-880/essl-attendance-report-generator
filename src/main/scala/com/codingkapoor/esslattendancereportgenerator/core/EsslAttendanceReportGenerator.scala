@@ -40,5 +40,5 @@ object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoa
     r
   }
 
-  ExcelWriter.write(attendances, holidays)(month, year)
+  ExcelWriter(month, year).write(attendances, holidays)
 }
