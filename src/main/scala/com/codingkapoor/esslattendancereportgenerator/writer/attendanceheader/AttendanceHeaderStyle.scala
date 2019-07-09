@@ -1,29 +1,18 @@
-package com.codingkapoor.esslattendancereportgenerator.writer
+package com.codingkapoor.esslattendancereportgenerator.writer.attendanceheader
 
-import java.time.YearMonth
-
-import com.codingkapoor.esslattendancereportgenerator.`package`.EmployeesInfoHeader
 import org.apache.poi.ss.usermodel.{BorderStyle, FillPatternType, HorizontalAlignment, IndexedColors}
-import org.apache.poi.xssf.usermodel.{XSSFColor, XSSFWorkbook}
+import org.apache.poi.xssf.usermodel.{XSSFCellStyle, XSSFColor, XSSFWorkbook}
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder
 
-trait AttendanceHeaderWriter {
-  val month: Int
-  val year: Int
+trait AttendanceHeaderStyle {
 
-  def writeAttendanceHeader(implicit workbook: XSSFWorkbook): Unit = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-    val numOfDaysInMonth = yearMonth.lengthOfMonth
-
-    val sheet = workbook.getSheet(_month)
-
+  def getAttendanceHeaderCellStyle(implicit workbook: XSSFWorkbook): XSSFCellStyle = {
     val font = workbook.createFont
     font.setBold(true)
     font.setFontHeightInPoints(10.5.toShort)
     font.setColor(IndexedColors.BLACK.getIndex)
 
-    val cellStyle = workbook.createCellStyle
+    val cellStyle: XSSFCellStyle = workbook.createCellStyle
     cellStyle.setFont(font)
     cellStyle.setAlignment(HorizontalAlignment.CENTER)
     cellStyle.setBorderLeft(BorderStyle.THIN)
@@ -37,20 +26,6 @@ trait AttendanceHeaderWriter {
     cellStyle.setFillForegroundColor(new XSSFColor(java.awt.Color.LIGHT_GRAY))
     cellStyle.setFillPattern(FillPatternType.DIAMONDS)
 
-    val row = sheet.createRow(2)
-
-    for (i <- EmployeesInfoHeader.indices) {
-      val col = row.createCell(i)
-      col.setCellValue(EmployeesInfoHeader(i))
-      col.setCellStyle(cellStyle)
-    }
-
-    var daysIndex = 5
-    for (i <- 1 to numOfDaysInMonth) {
-      val col = row.createCell(daysIndex)
-      col.setCellValue(i)
-      col.setCellStyle(cellStyle)
-      daysIndex += 1
-    }
+    cellStyle
   }
 }
