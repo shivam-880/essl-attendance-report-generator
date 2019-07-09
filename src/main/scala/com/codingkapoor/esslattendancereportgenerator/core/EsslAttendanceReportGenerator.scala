@@ -3,6 +3,7 @@ package com.codingkapoor.esslattendancereportgenerator.core
 import java.time.LocalDate
 
 import com.codingkapoor.esslattendancereportgenerator.model._
+import com.codingkapoor.esslattendancereportgenerator.writer.ExcelWriter
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.collection.immutable
@@ -10,7 +11,7 @@ import scala.collection.immutable
 // App you reply with an error message if uptodate attlog or holidays is not provided
 // Also notify entries in attlog that were not mentioned in employees.json
 object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoader {
-//  Thread.sleep(5000)
+//  Thread.sleep(2000)
   val (month, year) = getConfiguredMonthYear
   logger.debug(s"month = $month, year = $year")
 
@@ -31,7 +32,9 @@ object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoa
   logger.debug(s"requests = $requests")
 
   val attendances: immutable.Seq[AttendancePerEmployee] = employees.map { employee =>
-    val r = AttendancePerEmployee.getAttendancePerEmployee(employee, attendanceLogs(employee.empId), holidays, requests.filter(l => l.empId == employee.empId))(month, year)
+    val attendance = attendanceLogs(employee.empId) // handle key not found
+    val _requests: List[Request] = requests.filter(l => l.empId == employee.empId)
+    val r = AttendancePerEmployee.getAttendancePerEmployee(employee, attendance, holidays, _requests)(month, year)
     logger.debug(s"emp = ${employee.empId}, r = ${r.attendance.toList.sortWith(_._1 < _._1)}")
 
     r

@@ -16,5 +16,5 @@ object Holiday {
 
   private implicit val holidaysReads: Reads[Holiday] = Json.reads[Holiday]
 
-  def getHolidays: immutable.Seq[Holiday] = Json.parse(holidaysAsJson).as[List[Holiday]]
+  def getHolidays: List[Holiday] = Json.parse(holidaysAsJson).as[List[Holiday]]
 }

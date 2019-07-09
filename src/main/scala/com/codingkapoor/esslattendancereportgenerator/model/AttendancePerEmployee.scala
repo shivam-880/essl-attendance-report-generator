@@ -10,7 +10,7 @@ import scala.collection.mutable
 case class AttendancePerEmployee(employee: Employee, attendance: Attendance)
 
 object AttendancePerEmployee {
-  def getAttendancePerEmployee(employee: Employee, att: List[LocalDate], holidays: Seq[Holiday], requests: Seq[Request])(month: Int, year: Int): AttendancePerEmployee = {
+  def getAttendancePerEmployee(employee: Employee, att: List[LocalDate], holidays: List[Holiday], requests: List[Request])(month: Int, year: Int): AttendancePerEmployee = {
     val yearMonth = YearMonth.of(year, month)
     val numOfDays = yearMonth.lengthOfMonth
 

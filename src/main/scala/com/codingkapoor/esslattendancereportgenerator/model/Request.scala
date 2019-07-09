@@ -16,5 +16,5 @@ object Request {
 
   private implicit val employeesReads: Reads[Request] = Json.reads[Request]
 
-  def getRequests: immutable.Seq[Request] = Json.parse(requestsAsJson).as[List[Request]]
+  def getRequests: List[Request] = Json.parse(requestsAsJson).as[List[Request]]
 }
