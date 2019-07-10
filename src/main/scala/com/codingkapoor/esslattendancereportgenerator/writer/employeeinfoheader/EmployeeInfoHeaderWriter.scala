@@ -17,11 +17,16 @@ trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle {
     val sheet = workbook.getSheet(_month)
 
     val employeeInfoHeaderDimensions = EmployeeInfoHeaderDimensions()
-    val row = sheet.createRow(employeeInfoHeaderDimensions.firstRowIndex)
+
+    val firstRowIndex = employeeInfoHeaderDimensions.firstRowIndex
+    val firstColumnIndex = employeeInfoHeaderDimensions.firstColumnIndex
+    val lastColumnIndex = employeeInfoHeaderDimensions.lastColumnIndex
+
+    val row = sheet.createRow(firstRowIndex)
 
     val cellStyle = getEmployeeInfoHeaderCellStyle
 
-    for (i <- EmployeesInfoHeader.indices) {
+    for (i <- firstColumnIndex to lastColumnIndex) {
       val col = row.createCell(i)
       col.setCellValue(EmployeesInfoHeader(i))
       col.setCellStyle(cellStyle)

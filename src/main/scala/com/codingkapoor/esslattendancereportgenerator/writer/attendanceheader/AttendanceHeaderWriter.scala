@@ -2,10 +2,8 @@ package com.codingkapoor.esslattendancereportgenerator.writer.attendanceheader
 
 import java.time.YearMonth
 
-import com.codingkapoor.esslattendancereportgenerator.`package`.EmployeesInfoHeader
-import org.apache.poi.ss.usermodel.{BorderStyle, FillPatternType, HorizontalAlignment, IndexedColors}
-import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder
-import org.apache.poi.xssf.usermodel.{XSSFColor, XSSFWorkbook}
+import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceHeaderDimensions
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait AttendanceHeaderWriter extends AttendanceHeaderStyle {
   val month: Int
@@ -14,20 +12,25 @@ trait AttendanceHeaderWriter extends AttendanceHeaderStyle {
   def writeAttendanceHeader(implicit workbook: XSSFWorkbook): Unit = {
     val yearMonth = YearMonth.of(year, month)
     val _month = yearMonth.getMonth.toString
-    val numOfDaysInMonth = yearMonth.lengthOfMonth
 
     val sheet = workbook.getSheet(_month)
 
+    val attendanceHeaderDimensions = AttendanceHeaderDimensions(month, year)
+
+    val firstRowIndex = attendanceHeaderDimensions.firstRowIndex
+    val firstColumnIndex = attendanceHeaderDimensions.firstColumnIndex
+    val lastColumnIndex = attendanceHeaderDimensions.lastColumnIndex
+
+    val row = sheet.getRow(firstRowIndex)
+
     val cellStyle = getAttendanceHeaderCellStyle
 
-    val row = sheet.getRow(2)
-
-    var daysIndex = 5
-    for (i <- 1 to numOfDaysInMonth) {
-      val col = row.createCell(daysIndex)
-      col.setCellValue(i)
+    var day = 1
+    for (i <- firstColumnIndex to lastColumnIndex) {
+      val col = row.createCell(i)
+      col.setCellValue(day)
       col.setCellStyle(cellStyle)
-      daysIndex += 1
+      day += 1
     }
   }
 }
