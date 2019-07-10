@@ -14,7 +14,6 @@ trait AttendanceWriter extends AttendanceStyle {
   def writeAttendance(implicit workbook: XSSFWorkbook, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): Unit = {
     val yearMonth = YearMonth.of(year, month)
     val _month = yearMonth.getMonth.toString
-    val numOfDaysInMonth = yearMonth.lengthOfMonth
 
     val sheet = workbook.getSheet(_month)
 
@@ -32,13 +31,13 @@ trait AttendanceWriter extends AttendanceStyle {
 
       val row = sheet.getRow(rowNum)
 
-      var daysIndex = firstColumnIndex
-      for (i <- 1 to numOfDaysInMonth) {
-        val col = row.createCell(daysIndex)
-        if (!attendance(i).equals(AttendanceStatus.Abscond.toString))
-          col.setCellValue(attendance(i))
+      var day = 1
+      for (i <- firstColumnIndex to lastColumnIndex) {
+        val col = row.createCell(i)
+        if (!attendance(day).equals(AttendanceStatus.Abscond.toString))
+          col.setCellValue(attendance(day))
         col.setCellStyle(cellStyle)
-        daysIndex += 1
+        day += 1
       }
 
       rowNum += 1

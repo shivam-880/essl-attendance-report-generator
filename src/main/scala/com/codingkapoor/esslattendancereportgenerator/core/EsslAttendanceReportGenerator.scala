@@ -47,5 +47,5 @@ object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoa
   println(AttendanceHeaderDimensions(month, year))
   println(AttendanceDimensions(month, year, employees))
 
-  ExcelWriter(month, year).write(attendances, holidays)
+  ExcelWriter(month, year, attendances, holidays).write()
 }

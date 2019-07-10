@@ -15,7 +15,7 @@ import com.codingkapoor.esslattendancereportgenerator.writer.sheetheader.SheetHe
 import com.codingkapoor.esslattendancereportgenerator.writer.weekend.WeekendWriter
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-class ExcelWriter(val month: Int, val year: Int) extends SheetHeaderWriter with CompanyDetailsWriter with
+class ExcelWriter(val month: Int, val year: Int, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]) extends SheetHeaderWriter with CompanyDetailsWriter with
   EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter with
   HolidayWriter with WeekendWriter {
 
@@ -37,7 +37,7 @@ class ExcelWriter(val month: Int, val year: Int) extends SheetHeaderWriter with 
     existingMergedRegionsFound.contains(true)
   }
 
-  def write(attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): Unit = {
+  def write(): Unit = {
     implicit val _attendances: Seq[AttendancePerEmployee] = attendances
     implicit val _holidays: Seq[Holiday] = holidays
 
@@ -62,5 +62,7 @@ class ExcelWriter(val month: Int, val year: Int) extends SheetHeaderWriter with 
 }
 
 object ExcelWriter {
-  def apply(month: Int, year: Int): ExcelWriter = new ExcelWriter(month, year)
+  def apply(month: Int, year: Int, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): ExcelWriter = {
+    new ExcelWriter(month, year, attendances, holidays)
+  }
 }

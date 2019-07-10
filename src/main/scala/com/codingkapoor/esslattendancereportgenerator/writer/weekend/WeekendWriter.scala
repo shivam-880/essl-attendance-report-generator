@@ -18,7 +18,7 @@ trait WeekendWriter extends WeekendStyle {
     val _month = yearMonth.getMonth.toString
 
     val sheet = workbook.getSheet(_month)
-    
+
     val attendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
 
     val mergedRegionFirstRowIndex = attendanceDimensions.firstRowIndex
