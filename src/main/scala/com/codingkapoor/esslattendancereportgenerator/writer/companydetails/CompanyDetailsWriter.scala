@@ -16,7 +16,7 @@ trait CompanyDetailsWriter extends CompanyDetailsStyle {
     val _month = yearMonth.getMonth.toString
 
     val sheet = workbook.getSheet(_month)
-    
+
     val companyDetailsDimensions = CompanyDetailsDimensions()
 
     val firstRowIndex = companyDetailsDimensions.firstColumnIndex
