@@ -3,10 +3,9 @@ package com.codingkapoor.esslattendancereportgenerator.writer.companydetails
 import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.`package`.{CompanyAddress, CompanyName}
-import org.apache.poi.ss.usermodel.{BorderStyle, FillPatternType, IndexedColors}
+import com.codingkapoor.esslattendancereportgenerator.writer.CompanyDetailsDimensions
 import org.apache.poi.ss.util.CellRangeAddress
-import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder
-import org.apache.poi.xssf.usermodel.{XSSFColor, XSSFWorkbook}
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait CompanyDetailsWriter extends CompanyDetailsStyle {
   val month: Int
@@ -17,16 +16,18 @@ trait CompanyDetailsWriter extends CompanyDetailsStyle {
     val _month = yearMonth.getMonth.toString
 
     val sheet = workbook.getSheet(_month)
+    
+    val companyDetailsDimensions = CompanyDetailsDimensions()
 
-    val cellStyle = getCompanyDetailsCellStyle
+    val firstRowIndex = companyDetailsDimensions.firstColumnIndex
+    val lastRowIndex = companyDetailsDimensions.lastRowIndex
+    val firstColIndex = companyDetailsDimensions.firstColumnIndex
+    val lastColIndex = companyDetailsDimensions.lastColumnIndex
 
-    val row = sheet.getRow(0)
+    val row = sheet.getRow(firstRowIndex)
     row.setHeightInPoints(50)
 
-    val firstRowIndex = 0
-    val lastRowIndex = 0
-    val firstColIndex = 0
-    val lastColIndex = 4
+    val cellStyle = getCompanyDetailsCellStyle
 
     for (i <- firstColIndex to lastColIndex) {
       val col = row.createCell(i)
