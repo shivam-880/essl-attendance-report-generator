@@ -3,6 +3,7 @@ package com.codingkapoor.esslattendancereportgenerator.writer.weekend
 import java.time.{DayOfWeek, LocalDate, YearMonth}
 
 import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
+import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -17,29 +18,32 @@ trait WeekendWriter extends WeekendStyle {
     val _month = yearMonth.getMonth.toString
 
     val sheet = workbook.getSheet(_month)
+    
+    val attendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
+
+    val mergedRegionFirstRowIndex = attendanceDimensions.firstRowIndex
+    val mergedRegionLastRowIndex = attendanceDimensions.lastRowIndex - 1
 
     val (satCellStyle, sunCellStyle) = getWeekendCellStyle
 
     for (dayOfMonth <- 1 to yearMonth.lengthOfMonth()) {
       val dayOfWeek = LocalDate.of(year, month, dayOfMonth).getDayOfWeek
       if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
-        val dayIndex = 5 + dayOfMonth - 1
+        val dayIndex = attendanceDimensions.firstColumnIndex + dayOfMonth - 1
 
-        val firstRowIndex = 3
-        val lastRowIndex = firstRowIndex + attendances.size - 1
-        val firstColIndex = dayIndex
-        val lastColIndex = dayIndex
+        val mergedRegionFirstColumnIndex = dayIndex
+        val mergedRegionLastColumnIndex = dayIndex
 
-        if (!mergedRegionAlreadyExists(firstRowIndex, lastRowIndex, firstColIndex, lastColIndex)) {
-          for (i <- firstRowIndex to lastRowIndex) {
+        if (!mergedRegionAlreadyExists(mergedRegionFirstRowIndex, mergedRegionLastRowIndex, mergedRegionFirstColumnIndex, mergedRegionLastColumnIndex)) {
+          for (i <- mergedRegionFirstRowIndex to mergedRegionLastRowIndex) {
             val row = sheet.getRow(i)
-            for (j <- firstColIndex to lastColIndex) {
+            for (j <- mergedRegionFirstColumnIndex to mergedRegionLastColumnIndex) {
               val col = row.createCell(j)
 
               if (dayOfWeek == DayOfWeek.SATURDAY) col.setCellStyle(satCellStyle)
               else col.setCellStyle(sunCellStyle)
 
-              if (i == firstRowIndex && j == firstColIndex) {
+              if (i == mergedRegionFirstRowIndex && j == mergedRegionFirstColumnIndex) {
                 val dayOfWeekStr = dayOfWeek.toString
                 val camelCasedDayOfWeek = dayOfWeekStr.take(1) + dayOfWeekStr.drop(1).toLowerCase
                 col.setCellValue(camelCasedDayOfWeek)
@@ -47,7 +51,7 @@ trait WeekendWriter extends WeekendStyle {
             }
           }
 
-          sheet.addMergedRegion(new CellRangeAddress(firstRowIndex, lastRowIndex, firstColIndex, lastColIndex))
+          sheet.addMergedRegion(new CellRangeAddress(mergedRegionFirstRowIndex, mergedRegionLastRowIndex, mergedRegionFirstColumnIndex, mergedRegionLastColumnIndex))
         }
       }
     }
