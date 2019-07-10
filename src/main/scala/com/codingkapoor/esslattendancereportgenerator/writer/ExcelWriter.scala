@@ -18,7 +18,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 class ExcelWriter(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val holidays: Seq[Holiday]) extends SheetHeaderWriter with CompanyDetailsWriter with
   EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter with
   HolidayWriter with WeekendWriter {
-  val monthTitle: String = YearMonth.of(year, month).getMonth.toString
+  val yearMonth: YearMonth = YearMonth.of(year, month)
+  val monthTitle: String = yearMonth.getMonth.toString
 
   private val employees: Seq[Employee] = attendances.map(l => l.employee)
 

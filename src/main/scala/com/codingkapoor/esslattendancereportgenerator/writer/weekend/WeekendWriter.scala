@@ -2,7 +2,6 @@ package com.codingkapoor.esslattendancereportgenerator.writer.weekend
 
 import java.time.{DayOfWeek, LocalDate, YearMonth}
 
-import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -10,16 +9,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 trait WeekendWriter extends WeekendStyle {
   val month: Int
   val year: Int
+  val yearMonth: YearMonth
+
+  val monthTitle: String
+
+  val attendanceDimensions: AttendanceDimensions
 
   def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean
 
-  def writeWeekends(implicit workbook: XSSFWorkbook, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): Unit = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-
-    val sheet = workbook.getSheet(_month)
-
-    val attendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
+  def writeWeekends(implicit workbook: XSSFWorkbook): Unit = {
+    val sheet = workbook.getSheet(monthTitle)
 
     val mergedRegionFirstRowIndex = attendanceDimensions.firstRowIndex
     val mergedRegionLastRowIndex = attendanceDimensions.lastRowIndex - 1
