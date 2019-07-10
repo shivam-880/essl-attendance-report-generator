@@ -3,6 +3,7 @@ package com.codingkapoor.esslattendancereportgenerator.writer.employeeinfo
 import java.sql.Date
 import java.time.YearMonth
 
+import com.codingkapoor.esslattendancereportgenerator.`package`.EmployeesInfoHeader
 import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
@@ -47,5 +48,8 @@ trait EmployeeInfoWriter extends EmployeeInfoStyle {
 
       rowNum += 1
     }
+
+    for (i <- EmployeesInfoHeader.indices)
+      sheet.autoSizeColumn(i)
   }
 }

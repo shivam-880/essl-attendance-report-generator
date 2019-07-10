@@ -36,5 +36,8 @@ trait AttendanceWriter extends AttendanceStyle {
 
       rowNum += 1
     }
+
+    for (i <- 5 to (5 + numOfDaysInMonth))
+      sheet.setColumnWidth(i, 1200)
   }
 }

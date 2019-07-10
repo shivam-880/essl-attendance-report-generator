@@ -37,20 +37,6 @@ class ExcelWriter(val month: Int, val year: Int) extends SheetHeaderWriter with 
     existingMergedRegionsFound.contains(true)
   }
 
-  private def resizeCols(implicit workbook: XSSFWorkbook): Unit = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-    val numOfDaysInMonth = yearMonth.lengthOfMonth
-
-    val sheet = workbook.getSheet(_month)
-
-    for (i <- EmployeesInfoHeader.indices)
-      sheet.autoSizeColumn(i)
-
-    for (i <- 5 to (5 + numOfDaysInMonth))
-      sheet.setColumnWidth(i, 1200)
-  }
-
   def write(attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): Unit = {
     implicit val _attendances: Seq[AttendancePerEmployee] = attendances
     implicit val _holidays: Seq[Holiday] = holidays
@@ -69,8 +55,6 @@ class ExcelWriter(val month: Int, val year: Int) extends SheetHeaderWriter with 
       writeAttendance
       writeHolidays
       writeWeekends
-
-      resizeCols
 
       using(new FileOutputStream(AttendanceReportFileName))(workbook.write)
     }
