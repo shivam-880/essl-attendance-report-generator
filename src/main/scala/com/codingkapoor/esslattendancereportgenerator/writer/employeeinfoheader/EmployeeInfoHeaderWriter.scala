@@ -3,6 +3,7 @@ package com.codingkapoor.esslattendancereportgenerator.writer.employeeinfoheader
 import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.`package`.EmployeesInfoHeader
+import com.codingkapoor.esslattendancereportgenerator.writer.EmployeeInfoHeaderDimensions
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle {
@@ -15,9 +16,10 @@ trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle {
 
     val sheet = workbook.getSheet(_month)
 
-    val cellStyle = getEmployeeInfoHeaderCellStyle
+    val employeeInfoHeaderDimensions = EmployeeInfoHeaderDimensions()
+    val row = sheet.createRow(employeeInfoHeaderDimensions.firstRowIndex)
 
-    val row = sheet.createRow(2)
+    val cellStyle = getEmployeeInfoHeaderCellStyle
 
     for (i <- EmployeesInfoHeader.indices) {
       val col = row.createCell(i)
