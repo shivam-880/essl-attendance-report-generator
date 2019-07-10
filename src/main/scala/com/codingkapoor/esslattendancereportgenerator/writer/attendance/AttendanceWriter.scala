@@ -1,23 +1,18 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.attendance
 
-import java.time.YearMonth
-
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait AttendanceWriter extends AttendanceStyle {
-  val month: Int
-  val year: Int
+  val monthTitle: String
+  val attendances: Seq[AttendancePerEmployee]
 
-  def writeAttendance(implicit workbook: XSSFWorkbook, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): Unit = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
+  val attendanceDimensions: AttendanceDimensions
 
-    val sheet = workbook.getSheet(_month)
-
-    val attendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
+  def writeAttendance(implicit workbook: XSSFWorkbook): Unit = {
+    val sheet = workbook.getSheet(monthTitle)
 
     val firstRowIndex = attendanceDimensions.firstRowIndex
     val firstColumnIndex = attendanceDimensions.firstColumnIndex

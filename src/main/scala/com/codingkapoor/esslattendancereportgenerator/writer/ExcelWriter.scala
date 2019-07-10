@@ -15,15 +15,15 @@ import com.codingkapoor.esslattendancereportgenerator.writer.sheetheader.SheetHe
 import com.codingkapoor.esslattendancereportgenerator.writer.weekend.WeekendWriter
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-class ExcelWriter(val month: Int, val year: Int, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]) extends SheetHeaderWriter with CompanyDetailsWriter with
+class ExcelWriter(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val holidays: Seq[Holiday]) extends SheetHeaderWriter with CompanyDetailsWriter with
   EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter with
   HolidayWriter with WeekendWriter {
+  val monthTitle: String = YearMonth.of(year, month).getMonth.toString
+
+  val attendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
 
   override def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-
-    val sheet = workbook.getSheet(_month)
+    val sheet = workbook.getSheet(monthTitle)
 
     var existingMergedRegionsFound = List.empty[Boolean]
     val mergedRegions = sheet.getMergedRegions.iterator()
