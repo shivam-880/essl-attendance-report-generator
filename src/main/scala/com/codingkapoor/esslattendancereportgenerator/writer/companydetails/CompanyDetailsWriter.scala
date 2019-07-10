@@ -1,23 +1,17 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.companydetails
 
-import java.time.YearMonth
-
 import com.codingkapoor.esslattendancereportgenerator.`package`.{CompanyAddress, CompanyName}
 import com.codingkapoor.esslattendancereportgenerator.writer.CompanyDetailsDimensions
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait CompanyDetailsWriter extends CompanyDetailsStyle {
-  val month: Int
-  val year: Int
+  val monthTitle: String
+
+  val companyDetailsDimensions: CompanyDetailsDimensions
 
   def writeCompanyDetails(implicit workbook: XSSFWorkbook): Int = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-
-    val sheet = workbook.getSheet(_month)
-
-    val companyDetailsDimensions = CompanyDetailsDimensions()
+    val sheet = workbook.getSheet(monthTitle)
 
     val firstRowIndex = companyDetailsDimensions.firstColumnIndex
     val lastRowIndex = companyDetailsDimensions.lastRowIndex
