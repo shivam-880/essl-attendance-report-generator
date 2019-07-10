@@ -3,7 +3,7 @@ package com.codingkapoor.esslattendancereportgenerator.core
 import java.time.LocalDate
 
 import com.codingkapoor.esslattendancereportgenerator.model._
-import com.codingkapoor.esslattendancereportgenerator.writer.ExcelWriter
+import com.codingkapoor.esslattendancereportgenerator.writer._
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.collection.immutable
@@ -39,6 +39,13 @@ object EsslAttendanceReportGenerator extends App with LazyLogging with ConfigLoa
 
     r
   }
+
+  println(CompanyDetailsDimensions())
+  println(SectionHeaderDimensions(month, year))
+  println(EmployeeInfoHeaderDimensions())
+  println(EmployeeInfoDimensions(employees))
+  println(AttendanceHeaderDimensions(month, year))
+  println(AttendanceDimensions(month, year, employees))
 
   ExcelWriter(month, year).write(attendances, holidays)
 }
