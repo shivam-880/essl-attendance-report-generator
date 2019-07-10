@@ -1,13 +1,10 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.attendance
 
-import java.sql.Date
 import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
-import org.apache.poi.ss.usermodel.{BorderStyle, HorizontalAlignment}
-import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder
-import org.apache.poi.xssf.usermodel.{XSSFColor, XSSFWorkbook}
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait AttendanceWriter extends AttendanceStyle {
   val month: Int
@@ -20,35 +17,13 @@ trait AttendanceWriter extends AttendanceStyle {
 
     val sheet = workbook.getSheet(_month)
 
-    val (cellStyle, idCellStyle, dateCellStyle) = getAttendanceCellStyle
+    val cellStyle = getAttendanceCellStyle
 
     var rowNum = 3
     for (att <- attendances) {
-      val employee = att.employee
       val attendance = att.attendance
 
-      val row = sheet.createRow(rowNum)
-
-      val id = row.createCell(0)
-      id.setCellValue(employee.empId)
-      id.setCellStyle(idCellStyle)
-      id.setCellStyle(cellStyle)
-
-      val name = row.createCell(1)
-      name.setCellValue(employee.name)
-      name.setCellStyle(cellStyle)
-
-      val gender = row.createCell(2)
-      gender.setCellValue(employee.gender)
-      gender.setCellStyle(cellStyle)
-
-      val doj = row.createCell(3)
-      doj.setCellValue(Date.valueOf(employee.doj))
-      doj.setCellStyle(dateCellStyle)
-
-      val pfn = row.createCell(4)
-      pfn.setCellValue(employee.pfn)
-      pfn.setCellStyle(cellStyle)
+      val row = sheet.getRow(rowNum)
 
       var daysIndex = 5
       for (i <- 1 to numOfDaysInMonth) {

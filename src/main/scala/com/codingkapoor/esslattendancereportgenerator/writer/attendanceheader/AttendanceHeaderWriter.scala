@@ -20,13 +20,7 @@ trait AttendanceHeaderWriter extends AttendanceHeaderStyle {
 
     val cellStyle = getAttendanceHeaderCellStyle
 
-    val row = sheet.createRow(2)
-
-    for (i <- EmployeesInfoHeader.indices) {
-      val col = row.createCell(i)
-      col.setCellValue(EmployeesInfoHeader(i))
-      col.setCellStyle(cellStyle)
-    }
+    val row = sheet.getRow(2)
 
     var daysIndex = 5
     for (i <- 1 to numOfDaysInMonth) {

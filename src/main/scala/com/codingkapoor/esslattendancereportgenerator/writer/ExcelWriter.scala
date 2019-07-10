@@ -1,25 +1,23 @@
 package com.codingkapoor.esslattendancereportgenerator.writer
 
 import java.io.FileOutputStream
-import java.sql.Date
-import java.time.{DayOfWeek, LocalDate, YearMonth}
+import java.time.YearMonth
 
-import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.`package`._
 import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
 import com.codingkapoor.esslattendancereportgenerator.writer.attendance.AttendanceWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.attendanceheader.AttendanceHeaderWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.companydetails.CompanyDetailsWriter
+import com.codingkapoor.esslattendancereportgenerator.writer.employeeinfo.EmployeeInfoWriter
+import com.codingkapoor.esslattendancereportgenerator.writer.employeeinfoheader.EmployeeInfoHeaderWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.holiday.HolidayWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.sheetheader.SheetHeaderWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.weekend.WeekendWriter
-import org.apache.poi.ss.usermodel._
-import org.apache.poi.ss.util.CellRangeAddress
-import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder
-import org.apache.poi.xssf.usermodel.{XSSFColor, XSSFWorkbook}
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-class ExcelWriter(val month: Int, val year: Int) extends
-  SheetHeaderWriter with CompanyDetailsWriter with AttendanceHeaderWriter with AttendanceWriter with HolidayWriter with WeekendWriter {
+class ExcelWriter(val month: Int, val year: Int) extends SheetHeaderWriter with CompanyDetailsWriter with
+  EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter with
+  HolidayWriter with WeekendWriter {
 
   override def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean = {
     val yearMonth = YearMonth.of(year, month)
@@ -65,6 +63,8 @@ class ExcelWriter(val month: Int, val year: Int) extends
 
       writeSheetHeader
       writeCompanyDetails
+      writeEmployeeInfoHeader
+      writeEmployeeInfo
       writeAttendanceHeader
       writeAttendance
       writeHolidays
