@@ -1,22 +1,16 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.employeeinfoheader
 
-import java.time.YearMonth
-
 import com.codingkapoor.esslattendancereportgenerator.`package`.EmployeesInfoHeader
 import com.codingkapoor.esslattendancereportgenerator.writer.EmployeeInfoHeaderDimensions
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle {
-  val month: Int
-  val year: Int
+  val monthTitle: String
+
+  val employeeInfoHeaderDimensions: EmployeeInfoHeaderDimensions
 
   def writeEmployeeInfoHeader(implicit workbook: XSSFWorkbook): Unit = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-
-    val sheet = workbook.getSheet(_month)
-
-    val employeeInfoHeaderDimensions = EmployeeInfoHeaderDimensions()
+    val sheet = workbook.getSheet(monthTitle)
 
     val firstRowIndex = employeeInfoHeaderDimensions.firstRowIndex
     val firstColumnIndex = employeeInfoHeaderDimensions.firstColumnIndex
