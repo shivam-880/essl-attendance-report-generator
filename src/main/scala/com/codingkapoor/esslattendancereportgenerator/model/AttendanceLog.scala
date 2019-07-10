@@ -2,7 +2,7 @@ package com.codingkapoor.esslattendancereportgenerator.model
 
 import java.time.LocalDate
 
-import com.codingkapoor.esslattendancereportgenerator.`package`.using
+import com.codingkapoor.esslattendancereportgenerator.`package`._
 import com.codingkapoor.esslattendancereportgenerator.core.RuntimeEnvironment
 
 import scala.io.Source
@@ -17,7 +17,7 @@ case class AttendanceLog(empId: Int, date: LocalDate) extends Ordered[Attendance
 
 object AttendanceLog {
   def getAttendanceLogs: Set[AttendanceLog] = {
-    using(Source.fromFile(s"${RuntimeEnvironment.getDataDir}/1_attlog.dat")) { attlog =>
+    using(Source.fromFile(s"${RuntimeEnvironment.getDataDir}/$AttendanceLogFileName")) { attlog =>
       attlog.getLines().toList.filter(l => l.trim.length > 0).map { line =>
         line.trim.split("\\s+") match {
           case Array(empId, date, _, _, _, _, _) =>

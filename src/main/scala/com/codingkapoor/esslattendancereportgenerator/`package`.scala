@@ -1,7 +1,5 @@
 package com.codingkapoor.esslattendancereportgenerator
 
-import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus.AttendanceStatus
-
 import scala.collection.mutable
 
 object `package` {
@@ -11,6 +9,10 @@ object `package` {
   val EmployeesInfoHeader = Array("ID", "EMPLOYEE NAME", "GENDER", "DATE OF JOINING", "PF NUMBER")
 
   val AttendanceReportFileName = "gbatt.xlsx"
+  val HolidaysFileName = "holidays.json"
+  val RequestsFileName = "requests.json"
+  val EmployeesFileName = "employees.json"
+  val AttendanceLogFileName = "1_attlog.dat"
 
   object AttendanceStatus extends Enumeration {
     type AttendanceStatus = Value
