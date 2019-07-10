@@ -46,14 +46,8 @@ class ExcelWriter(val month: Int, val year: Int, val attendances: Seq[Attendance
   }
 
   def write(): Unit = {
-    implicit val _attendances: Seq[AttendancePerEmployee] = attendances
-    implicit val _holidays: Seq[Holiday] = holidays
-
     using(new XSSFWorkbook) { implicit workbook =>
-      val yearMonth = YearMonth.of(year, month)
-      val _month = yearMonth.getMonth.toString
-
-      workbook.createSheet(_month)
+      workbook.createSheet(monthTitle)
 
       writeSheetHeader
       writeCompanyDetails

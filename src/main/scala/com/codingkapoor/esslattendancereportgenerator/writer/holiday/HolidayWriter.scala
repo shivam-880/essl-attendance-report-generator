@@ -8,11 +8,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 trait HolidayWriter extends HolidayStyle {
   val monthTitle: String
 
+  val holidays: Seq[Holiday]
+
   val attendanceDimensions: AttendanceDimensions
 
   def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean
 
-  def writeHolidays(implicit workbook: XSSFWorkbook, attendances: Seq[AttendancePerEmployee], holidays: Seq[Holiday]): Unit = {
+  def writeHolidays(implicit workbook: XSSFWorkbook): Unit = {
     val sheet = workbook.getSheet(monthTitle)
 
     val mergedRegionfirstRowIndex = attendanceDimensions.firstRowIndex
