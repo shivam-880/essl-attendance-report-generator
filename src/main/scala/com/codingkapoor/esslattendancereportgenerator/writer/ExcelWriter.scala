@@ -4,7 +4,7 @@ import java.io.FileOutputStream
 import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.`package`._
-import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
+import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Employee, Holiday}
 import com.codingkapoor.esslattendancereportgenerator.writer.attendance.AttendanceWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.attendanceheader.AttendanceHeaderWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.companydetails.CompanyDetailsWriter
@@ -20,9 +20,12 @@ class ExcelWriter(val month: Int, val year: Int, val attendances: Seq[Attendance
   HolidayWriter with WeekendWriter {
   val monthTitle: String = YearMonth.of(year, month).getMonth.toString
 
-  val attendanceDimensions: AttendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
+  private val employees: Seq[Employee] = attendances.map(l => l.employee)
+
+  val attendanceDimensions: AttendanceDimensions = AttendanceDimensions(month, year, employees)
   val attendanceHeaderDimensions: AttendanceHeaderDimensions = AttendanceHeaderDimensions(month, year)
   val companyDetailsDimensions: CompanyDetailsDimensions= CompanyDetailsDimensions()
+  val employeeInfoDimensions: EmployeeInfoDimensions = EmployeeInfoDimensions(employees)
 
   override def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean = {
     val sheet = workbook.getSheet(monthTitle)
