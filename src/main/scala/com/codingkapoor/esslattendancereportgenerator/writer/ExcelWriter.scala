@@ -20,7 +20,8 @@ class ExcelWriter(val month: Int, val year: Int, val attendances: Seq[Attendance
   HolidayWriter with WeekendWriter {
   val monthTitle: String = YearMonth.of(year, month).getMonth.toString
 
-  val attendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
+  val attendanceDimensions: AttendanceDimensions = AttendanceDimensions(month, year, attendances.map(l => l.employee))
+  val attendanceHeaderDimensions: AttendanceHeaderDimensions = AttendanceHeaderDimensions(month, year)
 
   override def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean = {
     val sheet = workbook.getSheet(monthTitle)

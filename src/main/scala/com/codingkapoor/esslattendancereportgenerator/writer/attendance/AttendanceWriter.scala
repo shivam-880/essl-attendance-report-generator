@@ -1,7 +1,7 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.attendance
 
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
-import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
+import com.codingkapoor.esslattendancereportgenerator.model.AttendancePerEmployee
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 

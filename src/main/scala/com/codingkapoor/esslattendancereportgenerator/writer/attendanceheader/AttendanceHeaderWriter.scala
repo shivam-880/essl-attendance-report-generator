@@ -1,21 +1,15 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.attendanceheader
 
-import java.time.YearMonth
-
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceHeaderDimensions
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait AttendanceHeaderWriter extends AttendanceHeaderStyle {
-  val month: Int
-  val year: Int
+  val monthTitle: String
+
+  val attendanceHeaderDimensions: AttendanceHeaderDimensions
 
   def writeAttendanceHeader(implicit workbook: XSSFWorkbook): Unit = {
-    val yearMonth = YearMonth.of(year, month)
-    val _month = yearMonth.getMonth.toString
-
-    val sheet = workbook.getSheet(_month)
-
-    val attendanceHeaderDimensions = AttendanceHeaderDimensions(month, year)
+    val sheet = workbook.getSheet(monthTitle)
 
     val firstRowIndex = attendanceHeaderDimensions.firstRowIndex
     val firstColumnIndex = attendanceHeaderDimensions.firstColumnIndex
