@@ -15,7 +15,8 @@ object Holiday {
 
   private implicit val holidaysReads: Reads[Holiday] = Json.reads[Holiday]
 
-  def getHolidays(month: Int, year: Int): List[Holiday] = Json.parse(holidaysAsJson).as[List[Holiday]].filter { holiday =>
-    holiday.date.getMonthValue == month && holiday.date.getYear == year
-  }
+  def getHolidays(month: Int, year: Int): Map[LocalDate, String] =
+    Json.parse(holidaysAsJson).as[List[Holiday]].filter { holiday =>
+      holiday.date.getMonthValue == month && holiday.date.getYear == year
+    }.map(holiday => holiday.date -> holiday.occasion).toMap
 }

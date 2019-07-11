@@ -1,6 +1,7 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.holiday
 
-import com.codingkapoor.esslattendancereportgenerator.model.{AttendancePerEmployee, Holiday}
+import java.time.LocalDate
+
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -8,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 trait HolidayWriter extends HolidayStyle {
   val monthTitle: String
 
-  val holidays: Seq[Holiday]
+  val holidays: Map[LocalDate, String]
 
   val attendanceDimensions: AttendanceDimensions
 
@@ -22,8 +23,13 @@ trait HolidayWriter extends HolidayStyle {
 
     val cellStyle = getHolidayCellStyle
 
-    for (holiday <- holidays) {
-      val day = holiday.date.getDayOfMonth
+    val holidaysItr = holidays.iterator
+    while (holidaysItr.hasNext) {
+      val next = holidaysItr.next
+      val date = next._1
+      val occasion = next._2
+
+      val day = date.getDayOfMonth
       val dayIndex = attendanceDimensions.firstColumnIndex + day - 1
 
       val mergedRegionfirstColumnIndex = dayIndex
@@ -37,7 +43,7 @@ trait HolidayWriter extends HolidayStyle {
             val col = row.createCell(j)
             col.setCellStyle(cellStyle)
             if (i == mergedRegionfirstRowIndex && j == mergedRegionfirstColumnIndex) {
-              col.setCellValue(holiday.occasion)
+              col.setCellValue(occasion)
             }
           }
         }

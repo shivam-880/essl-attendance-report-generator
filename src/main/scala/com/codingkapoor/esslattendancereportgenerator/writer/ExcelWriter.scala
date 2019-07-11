@@ -18,7 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import scala.collection.immutable
 
-class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val employees: Seq[Employee], val holidays: Seq[Holiday]) extends SheetHeaderWriter with CompanyDetailsWriter with
+class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val employees: Seq[Employee], val holidays: Map[LocalDate, String]) extends SheetHeaderWriter with CompanyDetailsWriter with
   EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter with
   HolidayWriter with WeekendWriter {
   val yearMonth: YearMonth = YearMonth.of(year, month)
