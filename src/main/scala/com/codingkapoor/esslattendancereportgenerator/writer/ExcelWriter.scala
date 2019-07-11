@@ -24,11 +24,22 @@ class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[At
   val monthTitle: String = yearMonth.getMonth.toString
 
   val attendanceDimensions: AttendanceDimensions = AttendanceDimensions(month, year, employees)
+  logger.debug(s"attendanceDimensions = $attendanceDimensions")
+
   val attendanceHeaderDimensions: AttendanceHeaderDimensions = AttendanceHeaderDimensions(month, year)
+  logger.debug(s"attendanceHeaderDimensions = $attendanceHeaderDimensions")
+
   val companyDetailsDimensions: CompanyDetailsDimensions = CompanyDetailsDimensions()
+  logger.debug(s"companyDetailsDimensions = $companyDetailsDimensions")
+
   val employeeInfoDimensions: EmployeeInfoDimensions = EmployeeInfoDimensions(employees)
+  logger.debug(s"employeeInfoDimensions = $employeeInfoDimensions")
+
   val employeeInfoHeaderDimensions: EmployeeInfoHeaderDimensions = EmployeeInfoHeaderDimensions()
+  logger.debug(s"employeeInfoHeaderDimensions = $employeeInfoHeaderDimensions")
+
   val sectionHeaderDimensions: SectionHeaderDimensions = SectionHeaderDimensions(month, year)
+  logger.debug(s"sectionHeaderDimensions = $sectionHeaderDimensions")
 
   override def mergedRegionAlreadyExists(firstRowIndex: Int, lastRowIndex: Int, firstColumnIndex: Int, lastColumnIndex: Int)(implicit workbook: XSSFWorkbook): Boolean = {
     val sheet = workbook.getSheet(monthTitle)
