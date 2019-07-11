@@ -16,7 +16,7 @@ trait AttendanceHeaderWriter extends AttendanceHeaderStyle with LazyLogging {
     val firstColumnIndex = attendanceHeaderDimensions.firstColumnIndex
     val lastColumnIndex = attendanceHeaderDimensions.lastColumnIndex
 
-    val row = sheet.getRow(firstRowIndex)
+    val row = if(sheet.getRow(firstRowIndex) != null) sheet.getRow(firstRowIndex) else sheet.createRow(firstRowIndex)
 
     val cellStyle = getAttendanceHeaderCellStyle
 

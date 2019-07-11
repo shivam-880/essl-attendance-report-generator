@@ -27,7 +27,7 @@ trait EmployeeInfoWriter extends EmployeeInfoStyle with LazyLogging {
     for (att <- attendances) {
       val employee = att.employee
 
-      val row = sheet.createRow(rowNum)
+      val row = if(sheet.getRow(rowNum) != null) sheet.getRow(rowNum) else sheet.createRow(rowNum)
 
       val id = row.createCell(firstColumnIndex)
       id.setCellValue(employee.empId)

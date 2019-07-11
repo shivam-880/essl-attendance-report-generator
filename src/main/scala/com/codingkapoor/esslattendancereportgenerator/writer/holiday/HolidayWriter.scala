@@ -39,7 +39,8 @@ trait HolidayWriter extends HolidayStyle with LazyLogging {
       if (!mergedRegionAlreadyExists(mergedRegionfirstRowIndex, mergedRegionlastRowIndex, mergedRegionfirstColumnIndex, mergedRegionlastColumnIndex)) {
 
         for (i <- mergedRegionfirstRowIndex to mergedRegionlastRowIndex) {
-          val row = sheet.getRow(i)
+          val row = if(sheet.getRow(i) != null) sheet.getRow(i) else sheet.createRow(i)
+
           for (j <- mergedRegionfirstColumnIndex to mergedRegionlastColumnIndex) {
             val col = row.createCell(j)
             col.setCellStyle(cellStyle)

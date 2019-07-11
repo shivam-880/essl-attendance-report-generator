@@ -19,7 +19,7 @@ trait CompanyDetailsWriter extends CompanyDetailsStyle with LazyLogging {
     val firstColIndex = companyDetailsDimensions.firstColumnIndex
     val lastColIndex = companyDetailsDimensions.lastColumnIndex
 
-    val row = sheet.getRow(firstRowIndex)
+    val row = if(sheet.getRow(firstRowIndex) != null) sheet.getRow(firstRowIndex) else sheet.createRow(firstRowIndex)
     row.setHeightInPoints(50)
 
     val cellStyle = getCompanyDetailsCellStyle

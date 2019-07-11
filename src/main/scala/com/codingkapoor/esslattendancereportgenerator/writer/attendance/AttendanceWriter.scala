@@ -25,7 +25,7 @@ trait AttendanceWriter extends AttendanceStyle with LazyLogging {
     for (att <- attendances) {
       val attendance = att.attendance
 
-      val row = sheet.getRow(rowNum)
+      val row = if(sheet.getRow(rowNum) != null) sheet.getRow(rowNum) else sheet.createRow(rowNum)
 
       var day = 1
       for (i <- firstColumnIndex to lastColumnIndex) {

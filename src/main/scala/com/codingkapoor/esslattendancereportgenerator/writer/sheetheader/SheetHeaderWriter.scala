@@ -19,7 +19,7 @@ trait SheetHeaderWriter extends SheetHeaderStyle with LazyLogging {
     val firstColIndex = sectionHeaderDimensions.firstColumnIndex
     val lastColIndex = sectionHeaderDimensions.lastColumnIndex
 
-    val row = sheet.createRow(firstRowIndex)
+    val row = if(sheet.getRow(firstRowIndex) != null) sheet.getRow(firstRowIndex) else sheet.createRow(firstRowIndex)
     row.setHeightInPoints(50)
 
     val cellStyle = getSheetCellStyle

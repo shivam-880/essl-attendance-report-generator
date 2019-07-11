@@ -17,7 +17,7 @@ trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle with LazyLogging 
     val firstColumnIndex = employeeInfoHeaderDimensions.firstColumnIndex
     val lastColumnIndex = employeeInfoHeaderDimensions.lastColumnIndex
 
-    val row = sheet.createRow(firstRowIndex)
+    val row = if(sheet.getRow(firstRowIndex) != null) sheet.getRow(firstRowIndex) else sheet.createRow(firstRowIndex)
 
     val cellStyle = getEmployeeInfoHeaderCellStyle
 

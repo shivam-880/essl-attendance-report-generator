@@ -36,7 +36,8 @@ trait WeekendWriter extends WeekendStyle with LazyLogging {
 
         if (!mergedRegionAlreadyExists(mergedRegionFirstRowIndex, mergedRegionLastRowIndex, mergedRegionFirstColumnIndex, mergedRegionLastColumnIndex)) {
           for (i <- mergedRegionFirstRowIndex to mergedRegionLastRowIndex) {
-            val row = sheet.getRow(i)
+            val row = if(sheet.getRow(i) != null) sheet.getRow(i) else sheet.createRow(i)
+
             for (j <- mergedRegionFirstColumnIndex to mergedRegionLastColumnIndex) {
               val col = row.createCell(j)
 
