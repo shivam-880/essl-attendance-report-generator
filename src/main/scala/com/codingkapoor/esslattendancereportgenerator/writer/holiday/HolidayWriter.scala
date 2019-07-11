@@ -3,10 +3,11 @@ package com.codingkapoor.esslattendancereportgenerator.writer.holiday
 import java.time.LocalDate
 
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait HolidayWriter extends HolidayStyle {
+trait HolidayWriter extends HolidayStyle with LazyLogging {
   val monthTitle: String
 
   val holidays: Map[LocalDate, String]
@@ -51,5 +52,7 @@ trait HolidayWriter extends HolidayStyle {
         sheet.addMergedRegion(new CellRangeAddress(mergedRegionfirstRowIndex, mergedRegionlastRowIndex, mergedRegionfirstColumnIndex, mergedRegionlastColumnIndex))
       }
     }
+
+    logger.info("writeHolidays completed.")
   }
 }

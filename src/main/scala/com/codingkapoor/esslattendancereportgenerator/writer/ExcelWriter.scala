@@ -59,6 +59,8 @@ class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[At
       writeWeekends
 
       using(new FileOutputStream(AttendanceReportFileName))(workbook.write)
+
+      logger.info(s"Essl attendance report written to $AttendanceReportFileName")
     }
   }
 }

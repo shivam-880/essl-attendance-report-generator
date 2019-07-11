@@ -1,9 +1,10 @@
 package com.codingkapoor.esslattendancereportgenerator.writer.attendanceheader
 
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceHeaderDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait AttendanceHeaderWriter extends AttendanceHeaderStyle {
+trait AttendanceHeaderWriter extends AttendanceHeaderStyle with LazyLogging {
   val monthTitle: String
 
   val attendanceHeaderDimensions: AttendanceHeaderDimensions
@@ -26,5 +27,7 @@ trait AttendanceHeaderWriter extends AttendanceHeaderStyle {
       col.setCellStyle(cellStyle)
       day += 1
     }
+
+    logger.info("writeAttendanceHeader completed.")
   }
 }

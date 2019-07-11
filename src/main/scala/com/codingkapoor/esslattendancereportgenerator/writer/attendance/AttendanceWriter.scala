@@ -3,9 +3,10 @@ package com.codingkapoor.esslattendancereportgenerator.writer.attendance
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.model.Attendance
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait AttendanceWriter extends AttendanceStyle {
+trait AttendanceWriter extends AttendanceStyle with LazyLogging {
   val monthTitle: String
   val attendances: Seq[Attendance]
 
@@ -40,5 +41,7 @@ trait AttendanceWriter extends AttendanceStyle {
 
     for (i <- firstColumnIndex to lastColumnIndex)
       sheet.setColumnWidth(i, 1200)
+
+    logger.info("writeAttendance completed.")
   }
 }

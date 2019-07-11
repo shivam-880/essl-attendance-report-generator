@@ -3,10 +3,11 @@ package com.codingkapoor.esslattendancereportgenerator.writer.weekend
 import java.time.{DayOfWeek, LocalDate, YearMonth}
 
 import com.codingkapoor.esslattendancereportgenerator.writer.AttendanceDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait WeekendWriter extends WeekendStyle {
+trait WeekendWriter extends WeekendStyle with LazyLogging {
   val month: Int
   val year: Int
   val yearMonth: YearMonth
@@ -54,5 +55,7 @@ trait WeekendWriter extends WeekendStyle {
         }
       }
     }
+
+    logger.info("writeWeekends completed.")
   }
 }

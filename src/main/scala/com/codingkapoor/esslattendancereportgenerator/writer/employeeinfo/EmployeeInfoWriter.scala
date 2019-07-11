@@ -4,9 +4,10 @@ import java.sql.Date
 
 import com.codingkapoor.esslattendancereportgenerator.model.Attendance
 import com.codingkapoor.esslattendancereportgenerator.writer.EmployeeInfoDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait EmployeeInfoWriter extends EmployeeInfoStyle {
+trait EmployeeInfoWriter extends EmployeeInfoStyle with LazyLogging {
   val monthTitle: String
 
   val attendances: Seq[Attendance]
@@ -54,5 +55,7 @@ trait EmployeeInfoWriter extends EmployeeInfoStyle {
 
     for (i <- firstColumnIndex to lastColumnIndex)
       sheet.autoSizeColumn(i)
+
+    logger.info("writeEmployeeInfo completed.")
   }
 }

@@ -2,15 +2,16 @@ package com.codingkapoor.esslattendancereportgenerator.writer.companydetails
 
 import com.codingkapoor.esslattendancereportgenerator.`package`.{CompanyAddress, CompanyName}
 import com.codingkapoor.esslattendancereportgenerator.writer.CompanyDetailsDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait CompanyDetailsWriter extends CompanyDetailsStyle {
+trait CompanyDetailsWriter extends CompanyDetailsStyle with LazyLogging {
   val monthTitle: String
 
   val companyDetailsDimensions: CompanyDetailsDimensions
 
-  def writeCompanyDetails(implicit workbook: XSSFWorkbook): Int = {
+  def writeCompanyDetails(implicit workbook: XSSFWorkbook): Unit = {
     val sheet = workbook.getSheet(monthTitle)
 
     val firstRowIndex = companyDetailsDimensions.firstColumnIndex
@@ -32,5 +33,7 @@ trait CompanyDetailsWriter extends CompanyDetailsStyle {
     }
 
     sheet.addMergedRegion(new CellRangeAddress(firstRowIndex, lastRowIndex, firstColIndex, lastColIndex))
+
+    logger.info("writeCompanyDetails completed.")
   }
 }

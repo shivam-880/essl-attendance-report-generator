@@ -2,9 +2,10 @@ package com.codingkapoor.esslattendancereportgenerator.writer.employeeinfoheader
 
 import com.codingkapoor.esslattendancereportgenerator.`package`.EmployeesInfoHeader
 import com.codingkapoor.esslattendancereportgenerator.writer.EmployeeInfoHeaderDimensions
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle {
+trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle with LazyLogging {
   val monthTitle: String
 
   val employeeInfoHeaderDimensions: EmployeeInfoHeaderDimensions
@@ -25,5 +26,7 @@ trait EmployeeInfoHeaderWriter extends EmployeeInfoHeaderStyle {
       col.setCellValue(EmployeesInfoHeader(i))
       col.setCellStyle(cellStyle)
     }
+
+    logger.info("writeEmployeeInfoHeader completed.")
   }
 }
