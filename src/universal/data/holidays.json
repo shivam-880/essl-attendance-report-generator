@@ -1,11 +1,15 @@
 [
 	{
 		"date": "2019-01-01",
-		"occasion": "Global Family Day"
+		"occasion": "New Year's Day"
 	},
 	{
-		"date": "2019-01-04",
-		"occasion": "World Braille Day"
+		"date": "2019-01-15",
+		"occasion": "Makara Sankranthi"
+	},
+	{
+		"date": "2019-01-26",
+		"occasion": "Republic Day"
 	},
 	{
 		"date": "2019-04-19",
@@ -16,23 +20,35 @@
 		"occasion": "May Day/Labourer's Day"
 	},
 	{
-		"date": "2019-06-05",
-		"occasion": "World Environment Day"
+		"date": "2019-06-19",
+		"occasion": "Fake Holiday"
 	},
 	{
-		"date": "2019-06-08",
-		"occasion": "World Ocean Day"
+		"date": "2019-08-15",
+		"occasion": "Independence Day"
 	},
 	{
-		"date": "2019-09-15",
-		"occasion": "Software Freedom Day"
+		"date": "2019-09-02",
+		"occasion": "Ganesh Chathurthi"
 	},
 	{
-		"date": "2019-10-01",
-		"occasion": "International Music Day"
+		"date": "2019-10-02",
+		"occasion": "Gandhi Jayanthi"
 	},
 	{
-		"date": "2019-11-14",
-		"occasion": "World Philosophy Day"
+		"date": "2019-10-07",
+		"occasion": "Mahanavami/Ayudha Pooja"
+	},
+	{
+		"date": "2019-10-08",
+		"occasion": "Vijaya Dashami"
+	},
+	{
+		"date": "2019-10-28",
+		"occasion": "Deepawali"
+	},
+	{
+		"date": "2019-11-01",
+		"occasion": "Kannada Rajyotsava"
 	}
 ]
