@@ -1,7 +1,9 @@
 package com.codingkapoor.esslattendancereportgenerator.writer
 
-import java.io.FileOutputStream
+import java.io.{File, FileInputStream, FileOutputStream}
 import java.time.{LocalDate, YearMonth}
+import com.typesafe.scalalogging.LazyLogging
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.`package`._
@@ -14,8 +16,6 @@ import com.codingkapoor.esslattendancereportgenerator.writer.employeeinfoheader.
 import com.codingkapoor.esslattendancereportgenerator.writer.holiday.HolidayWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.sheetheader.SheetHeaderWriter
 import com.codingkapoor.esslattendancereportgenerator.writer.weekend.WeekendWriter
-import com.typesafe.scalalogging.LazyLogging
-import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[Attendance], val employees: Seq[Employee], val holidays: Map[LocalDate, String])
   extends SheetHeaderWriter with CompanyDetailsWriter with EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter
@@ -57,7 +57,11 @@ class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[At
   }
 
   def write(): Unit = {
-    using(new XSSFWorkbook) { implicit workbook =>
+    val report = new File(AttendanceReportFileName)
+
+    using {
+      if (report.exists()) new XSSFWorkbook(new FileInputStream(report)) else new XSSFWorkbook
+    } { implicit workbook =>
       workbook.createSheet(monthTitle)
 
       writeSheetHeader
