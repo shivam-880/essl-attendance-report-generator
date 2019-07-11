@@ -74,6 +74,9 @@ object ExcelWriter extends LazyLogging {
     val attendanceLogs = AttendanceLog.getAttendanceLogs(month, year)
     logger.debug(s"attendanceLogs = $attendanceLogs")
 
+    val nonEmployeeEntries = attendanceLogs.keySet diff employees.map(e => e.empId).toSet
+    logger.info(s"nonEmployeeEntries = $nonEmployeeEntries")
+
     val requests = Request.getRequests
     logger.debug(s"requests = $requests")
 
