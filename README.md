@@ -2,7 +2,7 @@
 Generates attendance report in Microsoft excel from biometric attendance logs.
 
 ## Data
-Since `essl-attendance-report-generator` is a small utility to generate an attendance report, it is designed to accept input data as files in json formats under `data` directory.
+Since `essl-attendance-report-generator` is a small utility to generate an attendance report, it is designed to accept input data as files in json formats defined under `data` directory.
 
 ```
 $ find src/universal/data/
