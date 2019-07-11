@@ -1,6 +1,6 @@
 package com.codingkapoor.esslattendancereportgenerator.model
 
-import java.time.{LocalDate, YearMonth}
+import java.time.{DayOfWeek, LocalDate, YearMonth}
 
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus.AttendanceStatus
@@ -24,9 +24,9 @@ object AttendancePerEmployee {
 
       if (holiday.isDefined)
         attendance.put(i, AttendanceStatus.Holiday)
-      else if (date.getDayOfWeek.toString.equals("SATURDAY"))
+      else if (date.getDayOfWeek.equals(DayOfWeek.SATURDAY))
         attendance.put(i, AttendanceStatus.Saturday)
-      else if (date.getDayOfWeek.toString.equals("SUNDAY"))
+      else if (date.getDayOfWeek.equals(DayOfWeek.SUNDAY))
         attendance.put(i, AttendanceStatus.Sunday)
       else if (request.isDefined)
         attendance.put(i, request.get)
