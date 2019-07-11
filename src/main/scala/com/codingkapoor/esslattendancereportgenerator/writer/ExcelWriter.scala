@@ -3,6 +3,7 @@ package com.codingkapoor.esslattendancereportgenerator.writer
 import java.io.FileOutputStream
 import java.time.{LocalDate, YearMonth}
 
+import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus.AttendanceStatus
 import com.codingkapoor.esslattendancereportgenerator.`package`._
 import com.codingkapoor.esslattendancereportgenerator.model._
 import com.codingkapoor.esslattendancereportgenerator.writer.attendance.AttendanceWriter
@@ -18,9 +19,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 import scala.collection.immutable
 
-class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val employees: Seq[Employee], val holidays: Map[LocalDate, String]) extends SheetHeaderWriter with CompanyDetailsWriter with
-  EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter with
-  HolidayWriter with WeekendWriter {
+class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val employees: Seq[Employee], val holidays: Map[LocalDate, String])
+  extends SheetHeaderWriter with CompanyDetailsWriter with EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter
+    with HolidayWriter with WeekendWriter {
   val yearMonth: YearMonth = YearMonth.of(year, month)
   val monthTitle: String = yearMonth.getMonth.toString
 
@@ -80,7 +81,7 @@ object ExcelWriter extends LazyLogging {
 
     val attendances: immutable.Seq[AttendancePerEmployee] = employees.map { employee =>
       val attendance = attendanceLogs.getOrElse(employee.empId, List.empty[LocalDate])
-      val _requests = requests.getOrElse(employee.empId, Map.empty[LocalDate, String])
+      val _requests = requests.getOrElse(employee.empId, Map.empty[LocalDate, AttendanceStatus])
 
       val r = AttendancePerEmployee.getAttendancePerEmployee(month, year, employee, attendance, holidays, _requests)
       logger.debug(s"emp = ${employee.empId}, r = ${r.attendance.toList.sortWith(_._1 < _._1)}")

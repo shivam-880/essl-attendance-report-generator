@@ -29,8 +29,8 @@ trait AttendanceWriter extends AttendanceStyle {
       var day = 1
       for (i <- firstColumnIndex to lastColumnIndex) {
         val col = row.createCell(i)
-        if (!attendance(day).equals(AttendanceStatus.Abscond.toString))
-          col.setCellValue(attendance(day))
+        if (!attendance(day).equals(AttendanceStatus.Abscond))
+          col.setCellValue(attendance(day).toString)
         col.setCellStyle(cellStyle)
         day += 1
       }
