@@ -11,10 +11,10 @@ case class AttendancePerEmployee(employee: Employee, attendance: Map[Int, String
 object AttendancePerEmployee {
   def getAttendancePerEmployee(month: Int, year: Int, employee: Employee, att: List[LocalDate], holidays: Map[LocalDate, String], requests: Map[LocalDate, String]): AttendancePerEmployee = {
     val yearMonth = YearMonth.of(year, month)
-    val numOfDays = yearMonth.lengthOfMonth
+    val numOfDaysInMonth = yearMonth.lengthOfMonth
 
     val attendance = mutable.Map[Int, String]()
-    for(i <- 1 to numOfDays) {
+    for(i <- 1 to numOfDaysInMonth) {
       val dateStr = s"$year-${"%02d".format(month)}-${"%02d".format(i)}"
       val date = LocalDate.parse(dateStr)
 
