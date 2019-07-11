@@ -1,7 +1,7 @@
 package com.codingkapoor.esslattendancereportgenerator.writer
 
 import java.io.FileOutputStream
-import java.time.{LocalDate, YearMonth}
+import java.time.YearMonth
 
 import com.codingkapoor.esslattendancereportgenerator.`package`._
 import com.codingkapoor.esslattendancereportgenerator.model._
@@ -66,17 +66,13 @@ class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[At
 
 object ExcelWriter extends LazyLogging {
   def apply(month: Int, year: Int): ExcelWriter = {
-    val holidays = Holiday.getHolidays.filter(h => h.date.getMonthValue == month && h.date.getYear == year)
+    val holidays = Holiday.getHolidays(month, year)
     logger.debug(s"holidays = $holidays")
 
     val employees = Employee.getEmployees
     logger.debug(s"employees = $employees")
 
-    val attendanceLogs: Map[Int, List[LocalDate]] = AttendanceLog.getAttendanceLogs.foldLeft(Map[Int, List[LocalDate]]()) { (acc, att) =>
-      if (acc.contains(att.empId)) {
-        acc + (att.empId -> (att.date :: acc(att.empId)).sortWith(_.isBefore(_)))
-      } else acc + (att.empId -> List(att.date).sortWith(_.isBefore(_)))
-    }
+    val attendanceLogs = AttendanceLog.getAttendanceLogs
     logger.debug(s"attendanceLogs = $attendanceLogs")
 
     val requests = Request.getRequests
