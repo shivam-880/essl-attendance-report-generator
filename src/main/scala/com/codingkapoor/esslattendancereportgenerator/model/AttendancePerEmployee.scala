@@ -3,14 +3,13 @@ package com.codingkapoor.esslattendancereportgenerator.model
 import java.time.{LocalDate, YearMonth}
 
 import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus
-import com.codingkapoor.esslattendancereportgenerator.`package`.Attendance
 
 import scala.collection.mutable
 
-case class AttendancePerEmployee(employee: Employee, attendance: Attendance)
+case class AttendancePerEmployee(employee: Employee, attendance: Map[Int, String])
 
 object AttendancePerEmployee {
-  def getAttendancePerEmployee(employee: Employee, att: List[LocalDate], holidays: Map[LocalDate, String], requests: Map[LocalDate, String])(month: Int, year: Int): AttendancePerEmployee = {
+  def getAttendancePerEmployee(month: Int, year: Int, employee: Employee, att: List[LocalDate], holidays: Map[LocalDate, String], requests: Map[LocalDate, String]): AttendancePerEmployee = {
     val yearMonth = YearMonth.of(year, month)
     val numOfDays = yearMonth.lengthOfMonth
 
@@ -37,6 +36,6 @@ object AttendancePerEmployee {
       }
     }
 
-    AttendancePerEmployee(employee, attendance)
+    AttendancePerEmployee(employee, attendance.toMap)
   }
 }

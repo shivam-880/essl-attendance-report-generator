@@ -82,7 +82,7 @@ object ExcelWriter extends LazyLogging {
       val attendance = attendanceLogs.getOrElse(employee.empId, List.empty[LocalDate])
       val _requests = requests.getOrElse(employee.empId, Map.empty[LocalDate, String])
 
-      val r = AttendancePerEmployee.getAttendancePerEmployee(employee, attendance, holidays, _requests)(month, year)
+      val r = AttendancePerEmployee.getAttendancePerEmployee(month, year, employee, attendance, holidays, _requests)
       logger.debug(s"emp = ${employee.empId}, r = ${r.attendance.toList.sortWith(_._1 < _._1)}")
 
       r

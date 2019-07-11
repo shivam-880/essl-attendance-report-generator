@@ -1,7 +1,5 @@
 package com.codingkapoor.esslattendancereportgenerator
 
-import scala.collection.mutable
-
 object `package` {
   val CompanyName = "GLASSBEAM SOFTWARE INDIA PVT. LTD.\n"
   val CompanyAddress = "No. 21, 3RD FLOOR, BLOCK A, SREE RAMA DEEVANA,\nHALASURU ROAD, BANGALORE-42"
@@ -26,8 +24,6 @@ object `package` {
     val Saturday: AttendanceStatus.Value = Value("SAT")
     val Sunday: AttendanceStatus.Value = Value("SUN")
   }
-
-  type Attendance = mutable.Map[Int, String]
 
   def using[A <: {def close() : Unit}, B](resource: A)(f: A => B): B = {
     try {
