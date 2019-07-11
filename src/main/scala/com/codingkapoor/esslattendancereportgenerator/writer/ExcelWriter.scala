@@ -17,9 +17,7 @@ import com.codingkapoor.esslattendancereportgenerator.writer.weekend.WeekendWrit
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
-import scala.collection.immutable
-
-class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[AttendancePerEmployee], val employees: Seq[Employee], val holidays: Map[LocalDate, String])
+class ExcelWriter private(val month: Int, val year: Int, val attendances: Seq[Attendance], val employees: Seq[Employee], val holidays: Map[LocalDate, String])
   extends SheetHeaderWriter with CompanyDetailsWriter with EmployeeInfoHeaderWriter with EmployeeInfoWriter with AttendanceHeaderWriter with AttendanceWriter
     with HolidayWriter with WeekendWriter {
   val yearMonth: YearMonth = YearMonth.of(year, month)
@@ -79,11 +77,11 @@ object ExcelWriter extends LazyLogging {
     val requests = Request.getRequests
     logger.debug(s"requests = $requests")
 
-    val attendances: immutable.Seq[AttendancePerEmployee] = employees.map { employee =>
+    val attendances: Seq[Attendance] = employees.map { employee =>
       val attendance = attendanceLogs.getOrElse(employee.empId, List.empty[LocalDate])
       val _requests = requests.getOrElse(employee.empId, Map.empty[LocalDate, AttendanceStatus])
 
-      val r = AttendancePerEmployee.getAttendancePerEmployee(month, year, employee, attendance, holidays, _requests)
+      val r = Attendance.getAttendance(month, year, employee, attendance, holidays, _requests)
       logger.debug(s"emp = ${employee.empId}, r = ${r.attendance.toList.sortWith(_._1 < _._1)}")
 
       r

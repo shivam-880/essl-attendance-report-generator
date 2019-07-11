@@ -2,14 +2,14 @@ package com.codingkapoor.esslattendancereportgenerator.writer.employeeinfo
 
 import java.sql.Date
 
-import com.codingkapoor.esslattendancereportgenerator.model.AttendancePerEmployee
+import com.codingkapoor.esslattendancereportgenerator.model.Attendance
 import com.codingkapoor.esslattendancereportgenerator.writer.EmployeeInfoDimensions
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 trait EmployeeInfoWriter extends EmployeeInfoStyle {
   val monthTitle: String
 
-  val attendances: Seq[AttendancePerEmployee]
+  val attendances: Seq[Attendance]
 
   val employeeInfoDimensions: EmployeeInfoDimensions
 

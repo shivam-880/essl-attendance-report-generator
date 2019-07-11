@@ -7,10 +7,10 @@ import com.codingkapoor.esslattendancereportgenerator.AttendanceStatus.Attendanc
 
 import scala.collection.mutable
 
-case class AttendancePerEmployee(employee: Employee, attendance: Map[Int, AttendanceStatus])
+case class Attendance(employee: Employee, attendance: Map[Int, AttendanceStatus])
 
-object AttendancePerEmployee {
-  def getAttendancePerEmployee(month: Int, year: Int, employee: Employee, att: List[LocalDate], holidays: Map[LocalDate, String], requests: Map[LocalDate, AttendanceStatus]): AttendancePerEmployee = {
+object Attendance {
+  def getAttendance(month: Int, year: Int, employee: Employee, att: List[LocalDate], holidays: Map[LocalDate, String], requests: Map[LocalDate, AttendanceStatus]): Attendance = {
     val yearMonth = YearMonth.of(year, month)
     val numOfDaysInMonth = yearMonth.lengthOfMonth
 
@@ -36,6 +36,6 @@ object AttendancePerEmployee {
         attendance.put(i, AttendanceStatus.Abscond)
     }
 
-    AttendancePerEmployee(employee, attendance.toMap)
+    Attendance(employee, attendance.toMap)
   }
 }
