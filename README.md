@@ -16,7 +16,7 @@ $ tail -f stdout.log essl-attendance-report-generator.log
 $ cd essl-attendance-report-generator
 $ sbt> universal:packageBin
 
-$ cd ./logs
+$ cd ./target/universal/stage/logs
 $ ../bin/start.sh
 $ tail -f stdout.log essl-attendance-report-generator.log
 ```
