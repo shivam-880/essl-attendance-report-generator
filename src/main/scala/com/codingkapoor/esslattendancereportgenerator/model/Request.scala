@@ -15,5 +15,12 @@ object Request {
 
   private implicit val employeesReads: Reads[Request] = Json.reads[Request]
 
-  def getRequests: List[Request] = Json.parse(requestsAsJson).as[List[Request]]
+  def getRequests: Map[Int, Map[LocalDate, String]] =
+    Json.parse(requestsAsJson).as[List[Request]].foldLeft(Map[Int, Map[LocalDate, String]]()) { (acc, request) =>
+      val i = Map(request.date -> request.req)
+      if (acc.contains(request.empId))
+        acc + (request.empId -> (acc(request.empId) ++: i))
+      else
+        acc + (request.empId -> i)
+    }
 }

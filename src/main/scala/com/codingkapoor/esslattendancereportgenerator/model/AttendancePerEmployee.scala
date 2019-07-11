@@ -10,19 +10,18 @@ import scala.collection.mutable
 case class AttendancePerEmployee(employee: Employee, attendance: Attendance)
 
 object AttendancePerEmployee {
-  def getAttendancePerEmployee(employee: Employee, att: List[LocalDate], holidays: List[Holiday], requests: List[Request])(month: Int, year: Int): AttendancePerEmployee = {
+  def getAttendancePerEmployee(employee: Employee, att: List[LocalDate], holidays: List[Holiday], requests: Map[LocalDate, String])(month: Int, year: Int): AttendancePerEmployee = {
     val yearMonth = YearMonth.of(year, month)
     val numOfDays = yearMonth.lengthOfMonth
 
     val holidaysMap: Map[LocalDate, String] = holidays.map(h => h.date -> h.occasion).toMap
-    val requestsMap: Map[LocalDate, String] = requests.map(r => r.date -> r.req).toMap
 
     val attendance = mutable.Map[Int, String]()
     for(i <- 1 to numOfDays) {
       val dateStr = s"$year-${"%02d".format(month)}-${"%02d".format(i)}"
       val date = LocalDate.parse(dateStr)
       val holiday = holidaysMap.get(date)
-      val request = requestsMap.get(date)
+      val request = requests.get(date)
 
       if(holiday.isDefined) {
         attendance.put(i, AttendanceStatus.Holiday.toString)

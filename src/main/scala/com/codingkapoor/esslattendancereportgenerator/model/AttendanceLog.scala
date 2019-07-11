@@ -16,7 +16,7 @@ case class AttendanceLog(empId: Int, date: LocalDate) extends Ordered[Attendance
 }
 
 object AttendanceLog {
-  def getAttendanceLogs: Map[Int, List[LocalDate]] = {
+  def getAttendanceLogs(month: Int, year: Int): Map[Int, List[LocalDate]] = {
     using(Source.fromFile(s"${RuntimeEnvironment.getDataDir}/$AttendanceLogFileName")) { attlog =>
       attlog.getLines().toList.filter(l => l.trim.length > 0).map { line =>
         line.trim.split("\\s+") match {
@@ -25,9 +25,11 @@ object AttendanceLog {
         }
       }
     }.toSet.foldLeft(Map[Int, List[LocalDate]]()) { (acc, att) =>
-      if (acc.contains(att.empId)) {
-        acc + (att.empId -> (att.date :: acc(att.empId)).sortWith(_.isBefore(_)))
-      } else acc + (att.empId -> List(att.date).sortWith(_.isBefore(_)))
+      if (att.date.getMonthValue == month && att.date.getYear == year) {
+        if (acc.contains(att.empId)) {
+          acc + (att.empId -> (att.date :: acc(att.empId)).sortWith(_.isBefore(_)))
+        } else acc + (att.empId -> List(att.date).sortWith(_.isBefore(_)))
+      } else acc
     }
   }
 }
