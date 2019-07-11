@@ -14,7 +14,7 @@ src/universal/data/employees.json
 ```
 
 ## Config
-Also the appilcation can be configured to generate reports via `application.conf`.
+Also the appilcation can be configured to generate reports for any given month and year via `application.conf`.
 ```
 $ cat src/universal/conf/application.conf
 esslattendancereportgenerator {
